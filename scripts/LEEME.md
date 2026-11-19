@@ -3,7 +3,7 @@
 | Archivo | Uso |
 |---|---|
 | `Deteccion_Anomalias_ENA_2015_2025.ipynb` | Análisis completo (5 etapas). Ejecutar desde esta carpeta. |
-| `ena_anomalias.py` | Funciones de cada etapa que importa el notebook. **Copiarlo aquí antes del primer commit.** |
+| `ena_anomalias.py` | Funciones de cada etapa que importa el notebook (mismos nombres). Etapas 3-5 probadas con la base consolidada; en las etapas 1-2 los nombres de columnas del INEI marcados `verificar` en `COLUMNAS` deben confirmarse con `listar_columnas()`. Atajo sin microdatos: `cargar_base()`. |
 | `exportar_base.py` | `python scripts/exportar_base.py ENA_2014_2025_cultivos.xlsx` → `data/processed/ena_2014_2025_productor.csv.gz` |
 | `poner_doi.py` | `python scripts/poner_doi.py 10.5281/zenodo.NNNNNNN` → pone el DOI real en todo el proyecto |
 
