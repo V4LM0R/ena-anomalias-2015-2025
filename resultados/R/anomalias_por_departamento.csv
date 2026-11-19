@@ -1,0 +1,25 @@
+departamento,registros,anomalias,pct
+Piura,39208,680,1.73
+Lambayeque,35961,612,1.7
+Tacna,44356,661,1.49
+Loreto,31226,463,1.48
+La Libertad,49755,678,1.36
+Arequipa,52493,691,1.32
+San Martín,45930,575,1.25
+Lima,46497,538,1.16
+Madre de Dios,28769,322,1.12
+Ucayali,26970,298,1.1
+Tumbes,23762,251,1.06
+Áncash,66933,672,1
+Amazonas,67796,667,0.98
+Ica,35247,301,0.85
+Pasco,34029,257,0.76
+Huánuco,64741,368,0.57
+Moquegua,59174,340,0.57
+Cajamarca,85469,482,0.56
+Junín,47500,250,0.53
+Cusco,77309,371,0.48
+Huancavelica,59187,219,0.37
+Puno,79148,291,0.37
+Apurímac,60087,181,0.3
+Ayacucho,80837,206,0.25

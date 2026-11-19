@@ -1,0 +1,6 @@
+Metodo,3 variables (%),16 variables (%)
+Z-score robusto,2.59,2.97
+Isolation Forest,1,1
+k-Means,1,1
+DBSCAN,1.01,0.64
+Votación (≥2),1.36,0.84

@@ -1,0 +1,23 @@
+{
+  "title": "Detección de anomalías en la Encuesta Nacional Agropecuaria 2014–2025: base consolidada y código",
+  "upload_type": "dataset",
+  "description": "<p>Base consolidada del capítulo 200 (cultivos cosechados) de la Encuesta Nacional Agropecuaria (ENA) del INEI, 2014–2025: 1 329 315 registros y 33 variables, sin identificadores de productor. Incluye las marcas de anomalía de cuatro detectores no supervisados (z-score robusto, DBSCAN, k-Means, Isolation Forest) y su votación (modelo de 16 variables), el diccionario de variables, las tablas y figuras del informe y el código en Python y en R.</p><p>Fuente primaria: INEI, microdatos de la ENA 2014–2024 (SPSS) y 2025 (CSV, módulo 1895). No existe la ENA 2020.</p><p>Informe web: https://miltonfloresf606-ai.github.io/ena-anomalias-2015-2025/</p>",
+  "creators": [
+    {"name": "Flores Flores, Milton", "affiliation": "Universidad Nacional del Altiplano – Puno"},
+    {"name": "Pacori Vera, Rommel Absalón", "affiliation": "Universidad Nacional del Altiplano – Puno"},
+    {"name": "Mamani Fernandez, Russbel Rimualdy", "affiliation": "Universidad Nacional del Altiplano – Puno"},
+    {"name": "Aquize Jimenez, Víctor Serapio", "affiliation": "Universidad Nacional del Altiplano – Puno"},
+    {"name": "Luque Cornejo, Zulema Yasmile", "affiliation": "Universidad Nacional del Altiplano – Puno"}
+  ],
+  "contributors": [
+    {"name": "Torres Cruz, Fred", "affiliation": "Universidad Nacional del Altiplano – Puno", "type": "Supervisor"}
+  ],
+  "keywords": ["detección de anomalías", "Encuesta Nacional Agropecuaria", "INEI", "Perú", "Puno", "aprendizaje no supervisado", "Isolation Forest", "DBSCAN", "k-Means", "calidad de datos"],
+  "license": "cc-by-4.0",
+  "access_right": "open",
+  "language": "spa",
+  "related_identifiers": [
+    {"identifier": "https://miltonfloresf606-ai.github.io/ena-anomalias-2015-2025/", "relation": "isDocumentedBy", "resource_type": "publication-report"},
+    {"identifier": "arXiv:2405.14754", "relation": "references", "resource_type": "publication-preprint"}
+  ]
+}

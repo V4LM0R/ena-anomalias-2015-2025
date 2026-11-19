@@ -1,0 +1,11 @@
+Regla,Casos,Método,Detectadas (%),Marcadas en el resto (%),Lift,Modelo
+R3 valor ≠ cantidad × precio,206,Z-score robusto,14.08,2.53,5.57,3 variables
+R3 valor ≠ cantidad × precio,206,Isolation Forest,12.14,1.0,12.16,3 variables
+R3 valor ≠ cantidad × precio,206,k-Means,11.65,1.0,11.67,3 variables
+R3 valor ≠ cantidad × precio,206,DBSCAN,12.14,0.98,12.41,3 variables
+R3 valor ≠ cantidad × precio,206,Votación (≥2),13.11,1.29,10.14,3 variables
+R3 valor ≠ cantidad × precio,206,Z-score robusto,17.96,2.9,6.2,16 variables
+R3 valor ≠ cantidad × precio,206,Isolation Forest,3.4,1.0,3.4,16 variables
+R3 valor ≠ cantidad × precio,206,k-Means,6.8,1.0,6.8,16 variables
+R3 valor ≠ cantidad × precio,206,DBSCAN,9.71,0.61,15.86,16 variables
+R3 valor ≠ cantidad × precio,206,Votación (≥2),10.68,0.7,15.21,16 variables

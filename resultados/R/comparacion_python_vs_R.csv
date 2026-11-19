@@ -1,0 +1,6 @@
+Metodo,Python_pct,R_pct,Acuerdo_pct,Kappa,Coinciden_anomalos
+Z-score robusto,2.9,2.97,99.86,0.976,35825
+Isolation Forest,1,1,99.29,0.641,8068
+k-Means,1,1,99.13,0.56,7058
+DBSCAN,0.61,0.64,99.6,0.681,5344
+Votación (≥2),0.7,0.84,99.51,0.679,6565

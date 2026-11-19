@@ -1,0 +1,7 @@
+Particion,Silueta
+k-Means (k=3),0.089
+Normal vs anómalo: Z-score robusto,0.386
+Normal vs anómalo: Isolation Forest,0.287
+Normal vs anómalo: k-Means,0.57
+Normal vs anómalo: DBSCAN,0.599
+Normal vs anómalo: Votación (≥2),0.574

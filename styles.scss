@@ -1,0 +1,17 @@
+/*-- scss:defaults --*/
+$primary: #14213d;
+$link-color: #1f5f99;
+$font-size-root: 16px;
+$headings-color: #14213d;
+
+/*-- scss:rules --*/
+.cajadatos {
+  border-left: 4px solid #14213d;
+  background: #f3f5f9;
+  padding: .9rem 1.1rem;
+  margin: 1rem 0 1.4rem;
+  border-radius: 4px;
+}
+.cajadatos p:last-child { margin-bottom: 0; }
+table { font-size: .9rem; }
+.quarto-title-meta-heading { color: #14213d; }

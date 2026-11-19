@@ -1,0 +1,17 @@
+/*-- scss:defaults --*/
+$body-bg: #ffffff;
+$body-color: #1d1d1d;
+$link-color: #1f5f99;
+$presentation-heading-color: #14213d;
+$presentation-font-size-root: 30px;
+$presentation-h2-font-size: 1.45em;
+
+/*-- scss:rules --*/
+.reveal h2 {
+  border-bottom: 3px solid #14213d;
+  padding-bottom: .2em;
+}
+.reveal table { font-size: .85em; }
+.reveal .slide-number, .reveal .footer { font-size: .45em; }
+#title-slide .title { color: #14213d; font-size: 1.6em; }
+#title-slide .subtitle { color: #44506b; }

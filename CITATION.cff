@@ -1,0 +1,44 @@
+cff-version: 1.2.0
+message: "Si usa estos datos o el código, cítelos como se indica abajo."
+type: dataset
+title: "Detección de anomalías en la Encuesta Nacional Agropecuaria 2014–2025: base consolidada y código"
+version: 1.0.0
+date-released: 2026-11-18
+doi: 10.5281/zenodo.XXXXXXX
+license: CC-BY-4.0
+repository-code: "https://github.com/miltonfloresf606-ai/ena-anomalias-2015-2025"
+url: "https://miltonfloresf606-ai.github.io/ena-anomalias-2015-2025/"
+abstract: >-
+  Base consolidada del capítulo 200 (cultivos cosechados) de la Encuesta Nacional
+  Agropecuaria del INEI, 2014–2025 (1 329 315 registros, 33 variables), con las marcas
+  de anomalía de cuatro detectores no supervisados (z-score robusto, DBSCAN, k-Means,
+  Isolation Forest) y su votación, más el código, tablas y figuras del análisis.
+keywords:
+  - detección de anomalías
+  - Encuesta Nacional Agropecuaria
+  - INEI
+  - Perú
+  - aprendizaje no supervisado
+  - calidad de datos
+authors:
+  - family-names: Flores Flores
+    given-names: Milton
+    affiliation: "Universidad Nacional del Altiplano – Puno"
+  - family-names: Pacori Vera
+    given-names: Rommel Absalón
+    affiliation: "Universidad Nacional del Altiplano – Puno"
+  - family-names: Mamani Fernandez
+    given-names: Russbel Rimualdy
+    affiliation: "Universidad Nacional del Altiplano – Puno"
+  - family-names: Aquize Jimenez
+    given-names: Víctor Serapio
+    affiliation: "Universidad Nacional del Altiplano – Puno"
+  - family-names: Luque Cornejo
+    given-names: Zulema Yasmile
+    affiliation: "Universidad Nacional del Altiplano – Puno"
+references:
+  - type: data
+    title: "Encuesta Nacional Agropecuaria 2014–2025 (microdatos)"
+    authors:
+      - name: "Instituto Nacional de Estadística e Informática (INEI)"
+    url: "https://proyectos.inei.gob.pe/microdatos/"

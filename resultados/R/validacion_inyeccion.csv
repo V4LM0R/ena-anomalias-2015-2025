@@ -1,0 +1,11 @@
+Metodo,Precision,Recall,F1,AUC,Modelo
+Z-score robusto,0.284,0.52,0.367,0.795,3 variables
+Isolation Forest,0.504,0.166,0.249,0.79,3 variables
+k-Means,0.998,0.406,0.577,0.795,3 variables
+DBSCAN,0.986,0.394,0.563,0.776,3 variables
+Votación (≥2),0.936,0.423,0.583,0.794,3 variables
+Z-score robusto,0.196,0.543,0.288,0.85,16 variables
+Isolation Forest,0.044,0.037,0.04,0.725,16 variables
+k-Means,0.824,0.514,0.633,0.985,16 variables
+DBSCAN,0.947,0.328,0.487,0.937,16 variables
+Votación (≥2),0.978,0.361,0.527,0.968,16 variables

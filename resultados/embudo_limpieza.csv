@@ -1,0 +1,10 @@
+paso,registros
+Filas con nombre de cultivo (todas las secciones),1658156
+"Registros de cultivos cosechados (sección 200A, con N° de cultivo)",1493391
+Solo encuestas completas (RESFIN = 1),1492147
+Sin 2014 (INEI no publicó cantidades ni superficies),1413650
+"Con superficie, cantidad y equivalencia en kg",1267692
+Sin códigos de relleno (99 999 999 y similares),1267547
+Superficie y producción mayores que cero,1267547
+"Sin registros duplicados (mismo productor, parcela, cultivo y valores)",1267083
+Cultivos con 30 registros o más en el año,1250818

@@ -1,0 +1,35 @@
+# Microdatos crudos del INEI (14,7 GB): no se versionan
+data/raw/*
+!data/raw/README.md
+!data/raw/.gitkeep
+*.sav
+*.zip
+*.xlsx
+
+# Base sin comprimir (172 MB > límite de 100 MB de GitHub); se sube solo el .csv.gz
+data/processed/*.csv
+!data/processed/diccionario_variables.csv
+registros_marcados.csv
+
+# Quarto
+/.quarto/
+*_files/
+*_cache/
+
+# Python / Jupyter
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+Rplots.pdf
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini

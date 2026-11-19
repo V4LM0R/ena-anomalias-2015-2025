@@ -1,0 +1,104 @@
+---
+title: "Datos y código"
+subtitle: "Base consolidada ENA 2014–2025, diccionario y reproducibilidad"
+number-sections: false
+---
+
+::: {.cajadatos}
+[![DOI](https://zenodo.org/badge/DOI/{{< var doi >}}.svg)](https://doi.org/{{< var doi >}})
+
+**DOI (Zenodo):** [{{< var doi >}}](https://doi.org/{{< var doi >}})  
+**Repositorio:** [{{< var repo >}}]({{< var repo >}})  
+**Versión:** {{< var version >}} · Datos CC BY 4.0 · Código MIT
+:::
+
+## Archivos depositados
+
+| Archivo | Contenido |
+|---|---|
+| `data/processed/ena_2014_2025_productor.csv.gz` | Base consolidada: 1 329 315 registros × 33 columnas (2014: 78 497 sin cantidades; 2015–2025: 1 250 818 con marcas de anomalía). UTF-8, separador coma, decimal punto, celdas vacías = dato faltante. |
+| `data/processed/diccionario_variables.csv` | Diccionario de las 33 variables (tabla de abajo). |
+| `resultados/*.csv` | Tablas de resultados y validación del informe. |
+| `figuras/*.png` | Figuras del informe. |
+| `scripts/` | Notebook del análisis en Python, módulo `ena_anomalias.py`, scripts en R (`scripts/R/`) y auxiliares. |
+
+Un registro es un cultivo cosechado por un productor en una parcela y un año (capítulo 200 de la ENA). La base no incluye identificadores de productor ni de vivienda. Entre 2024 y 2025 hay 8 410 registros sin departamento en la fuente.
+
+## Diccionario de variables
+
+| Variable | Descripción | Tipo | Unidad | Años |
+|---|---|---|---|---|
+| `anio` | Año de la encuesta (2014–2025; no existe 2020) | entero | año | Todos |
+| `ccdd` | Código de departamento (UBIGEO, 2 dígitos) | texto | — | Todos |
+| `departamento` | Nombre del departamento | texto | — | Todos |
+| `region_natural` | Región natural de la parcela (Costa, Sierra, Selva) | texto | — | Todos |
+| `cultivo` | Nombre del cultivo según catálogo INEI | texto | — | Todos |
+| `cod_cultivo` | Código del cultivo (catálogo INEI) | entero | — | Todos |
+| `unidad_medida` | Unidad en que el productor declaró la cosecha (kilos, sacos, arrobas…) | texto | — | 2015–2025 |
+| `sup_cosechada_ha` | Superficie cosechada convertida a hectáreas | decimal | ha | 2015–2025 |
+| `sup_reconstruida` | "sí" si las hectáreas se reconstruyeron con el factor de la parcela (2015 y 2018) | texto | — | 2015–2025 |
+| `sup_sembrada_ha` | Superficie sembrada en hectáreas | decimal | ha | 2015–2025 |
+| `cant_cosechada` | Cantidad cosechada en la unidad declarada | decimal | unidad declarada | 2015–2025 |
+| `equiv_kg` | Kilogramos que equivalen a una unidad declarada | decimal | kg/unidad | 2015–2025 |
+| `prod_kg` | cant_cosechada × equiv_kg | decimal | kg | 2015–2025 |
+| `rend_kg_ha` | prod_kg ÷ sup_cosechada_ha | decimal | kg/ha | 2015–2025 |
+| `cant_vendida` | Cantidad vendida en la unidad declarada | decimal | unidad declarada | 2015–2025 |
+| `precio_unidad` | Precio de venta por unidad declarada | decimal | S/ por unidad | 2015–2025 (solo quien vende) |
+| `valor_venta` | Valor total de la venta | decimal | S/ | 2015–2025 (solo quien vende) |
+| `precio_kg` | valor_venta ÷ kg vendidos | decimal | S/ por kg | 2015–2025 (solo quien vende) |
+| `cant_hogar` | Cantidad destinada al consumo del hogar | decimal | unidad declarada | 2015–2025 |
+| `valor_hogar` | Valor estimado del autoconsumo | decimal | S/ | 2015–2025 |
+| `cant_semilla` | Cantidad guardada como semilla | decimal | unidad declarada | 2015–2025 |
+| `cant_animales` | Cantidad destinada a alimento de animales | decimal | unidad declarada | 2015–2025 |
+| `n_cosechas` | Número de cosechas en el año (pregunta P205) | entero | cosechas | Todos |
+| `meses_siembra_cosecha` | Meses entre la siembra y el inicio de la cosecha (2021 sin fecha de siembra) | entero | meses | 2015–2025 |
+| `tipo_cultivo` | Código INEI del tipo de cultivo | entero (código) | — | Todos |
+| `regimen_tenencia` | Código INEI de la conducción/tenencia del cultivo | entero (código) | — | Todos |
+| `fuente_agua` | Código INEI de la fuente de agua (riego o secano) | entero (código) | — | Todos |
+| `flag_z` | 1 si el z-score robusto marca el registro (|z| > 3,5) | 0/1 | — | 2015–2025 |
+| `flag_if` | 1 si Isolation Forest marca el registro (contaminación 1 %) | 0/1 | — | 2015–2025 |
+| `flag_km` | 1 si está en el 1 % más lejano de su centroide (k = 3) | 0/1 | — | 2015–2025 |
+| `flag_db` | 1 si DBSCAN lo deja como ruido | 0/1 | — | 2015–2025 |
+| `votos` | Número de métodos que marcan el registro | entero | 0–4 | 2015–2025 |
+| `anomalia` | 1 si votos ≥ 2 (modelo de 16 variables) | 0/1 | — | 2015–2025 |
+
+Los códigos de `tipo_cultivo`, `regimen_tenencia` y `fuente_agua` siguen el cuestionario de la ENA del INEI.
+
+## Cargar la base
+
+::: {.panel-tabset}
+### Python
+
+```python
+import pandas as pd
+ena = pd.read_csv("data/processed/ena_2014_2025_productor.csv.gz",
+                  dtype={"ccdd": str}, low_memory=False)
+ena.query("anio >= 2015").groupby("anio")["anomalia"].mean()
+```
+
+### R
+
+```r
+library(readr); library(dplyr)
+ena <- read_csv("data/processed/ena_2014_2025_productor.csv.gz",
+                col_types = cols(ccdd = col_character()))
+ena |> filter(anio >= 2015) |> group_by(anio) |> summarise(tasa = mean(anomalia))
+```
+:::
+
+## Reproducir el análisis
+
+**En R (RStudio):** abrir `ena-anomalias-2015-2025.Rproj` y ejecutar `scripts/R/ejecutar_todo.R`. Detalle en [Código en R](codigo-r.qmd).
+
+**En Python:**
+
+1. Descargar los microdatos de la ENA en el [portal de microdatos del INEI](https://proyectos.inei.gob.pe/microdatos/) (ENA 2014–2024 en SPSS y los 21 zip de 2025) y ubicarlos en `data/raw/`.
+2. Instalar dependencias: `pip install -r requirements.txt`.
+3. Ajustar las rutas de la primera celda y ejecutar `scripts/Deteccion_Anomalias_ENA_2015_2025.ipynb`.
+4. Volver a compilar este sitio con `quarto render`.
+
+## Cómo citar
+
+> Flores Flores, M., Pacori Vera, R. A., Mamani Fernandez, R. R., Aquize Jimenez, V. S., & Luque Cornejo, Z. Y. (2026). *Detección de anomalías en la Encuesta Nacional Agropecuaria 2014–2025: base consolidada y código* (Versión {{< var version >}}) [Conjunto de datos]. Zenodo. <https://doi.org/{{< var doi >}}>
+
+Fuente primaria: Instituto Nacional de Estadística e Informática (INEI). Encuesta Nacional Agropecuaria 2014–2025, microdatos.

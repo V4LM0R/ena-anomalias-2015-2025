@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Código en R – Anomalías en la ENA 2015–2025</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Anomalías en la ENA 2015–2025</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Informe</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./datos.html"> 
+<span class="menu-text">Datos y código</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./codigo-r.html" aria-current="page"> 
+<span class="menu-text">Código en R</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./presentacion.html"> 
+<span class="menu-text">Presentación</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/miltonfloresf606-ai/ena-anomalias-2015-2025"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contenido</h2>
+   
+  <ul>
+  <li><a href="#cómo-ejecutarlo" id="toc-cómo-ejecutarlo" class="nav-link active" data-scroll-target="#cómo-ejecutarlo">Cómo ejecutarlo</a></li>
+  <li><a href="#resultados-de-r-frente-a-python" id="toc-resultados-de-r-frente-a-python" class="nav-link" data-scroll-target="#resultados-de-r-frente-a-python">Resultados de R frente a Python</a></li>
+  <li><a href="#scripts" id="toc-scripts" class="nav-link" data-scroll-target="#scripts">Scripts</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/miltonfloresf606-ai/ena-anomalias-2015-2025/blob/main/codigo-r.qmd" class="toc-action"><i class="bi bi-github"></i>Ver el código</a></li><li><a href="https://github.com/miltonfloresf606-ai/ena-anomalias-2015-2025/issues/new" class="toc-action"><i class="bi empty"></i>Informar de un problema</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Código en R</h1>
+<p class="subtitle lead">Etapas 3 a 5 del análisis para ejecutar en RStudio</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="cómo-ejecutarlo" class="level2">
+<h2 class="anchored" data-anchor-id="cómo-ejecutarlo">Cómo ejecutarlo</h2>
+<ol type="1">
+<li>Descargar o clonar el repositorio y abrir <strong><code>ena-anomalias-2015-2025.Rproj</code></strong> en RStudio (así el directorio de trabajo queda en la raíz).</li>
+<li>Abrir <code>scripts/R/ejecutar_todo.R</code> y pulsar <strong>Source</strong>. También se pueden correr <code>00</code> a <code>05</code> uno por uno; cada script carga lo que necesita si no está en memoria.</li>
+<li>Las figuras se guardan en <code>figuras/R/</code> y las tablas en <code>resultados/R/</code>.</li>
+</ol>
+<p>La primera vez se instalan <code>data.table</code>, <code>ggplot2</code>, <code>isotree</code>, <code>dbscan</code>, <code>cluster</code> y <code>readxl</code>. R usa hasta unos 5 GB de RAM (conviene una computadora con 8 GB o más). Las etapas 3 y 4 tardan unos 5 minutos y la validación unos 25.</p>
+<p>R parte de la base depositada (<code>ena_2014_2025_productor.csv.gz</code>), que ya está integrada y limpia. La lectura del SPSS de 14,7 GB y la limpieza (etapas 1 y 2) están en el notebook de Python.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Etapa</th>
+<th>Python</th>
+<th>R</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Variables</td>
+<td><code>crear_variables</code>, <code>z_robusto</code></td>
+<td>mismas funciones en <code>funciones.R</code> (<code>data.table</code>)</td>
+</tr>
+<tr class="even">
+<td>Isolation Forest</td>
+<td><code>sklearn.ensemble.IsolationForest</code></td>
+<td><code>isotree::isolation.forest(ndim = 1)</code></td>
+</tr>
+<tr class="odd">
+<td>k-Means</td>
+<td><code>sklearn.cluster.KMeans</code></td>
+<td><code>stats::kmeans</code></td>
+</tr>
+<tr class="even">
+<td>DBSCAN</td>
+<td><code>sklearn.cluster.DBSCAN</code></td>
+<td><code>dbscan::kNNdist</code> + núcleos + <code>dbscan::kNN</code></td>
+</tr>
+<tr class="odd">
+<td>Silueta</td>
+<td><code>sklearn.metrics.silhouette_score</code></td>
+<td><code>cluster::silhouette</code></td>
+</tr>
+<tr class="even">
+<td>AUC</td>
+<td><code>roc_auc_score</code></td>
+<td><code>auc_rangos</code> (Mann-Whitney)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="resultados-de-r-frente-a-python" class="level2">
+<h2 class="anchored" data-anchor-id="resultados-de-r-frente-a-python">Resultados de R frente a Python</h2>
+<p>Con la misma base, R marca <strong>10 463 registros como anómalos (0,84 %)</strong>, frente a 8 802 (0,70 %) en Python. Las diferencias se deben a la aleatoriedad de cada método y a detalles de implementación (k-Means de <code>stats</code> frente a <code>scikit-learn</code>, árboles de <code>isotree</code>). El z-score robusto coincide casi por completo y la tendencia por año se repite (1,14 % en 2015 y 0,45 % en 2025).</p>
+<div id="tbl-r-python" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-r-python-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;1: Marcas del modelo de 16 variables: Python (columnas <code>flag_*</code> de la base) frente a R.
+</figcaption>
+<div aria-describedby="tbl-r-python-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Método (16 variables)</th>
+<th style="text-align: right;">Python (%)</th>
+<th style="text-align: right;">R (%)</th>
+<th style="text-align: right;">Acuerdo (%)</th>
+<th style="text-align: right;">Kappa</th>
+<th style="text-align: right;">Anómalos en ambos</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Z-score robusto</td>
+<td style="text-align: right;">2,90</td>
+<td style="text-align: right;">2,97</td>
+<td style="text-align: right;">99,86</td>
+<td style="text-align: right;">0,976</td>
+<td style="text-align: right;">35 825</td>
+</tr>
+<tr class="even">
+<td>Isolation Forest</td>
+<td style="text-align: right;">1,00</td>
+<td style="text-align: right;">1,00</td>
+<td style="text-align: right;">99,29</td>
+<td style="text-align: right;">0,641</td>
+<td style="text-align: right;">8 068</td>
+</tr>
+<tr class="odd">
+<td>k-Means</td>
+<td style="text-align: right;">1,00</td>
+<td style="text-align: right;">1,00</td>
+<td style="text-align: right;">99,13</td>
+<td style="text-align: right;">0,560</td>
+<td style="text-align: right;">7 058</td>
+</tr>
+<tr class="even">
+<td>DBSCAN</td>
+<td style="text-align: right;">0,61</td>
+<td style="text-align: right;">0,64</td>
+<td style="text-align: right;">99,60</td>
+<td style="text-align: right;">0,681</td>
+<td style="text-align: right;">5 344</td>
+</tr>
+<tr class="odd">
+<td>Votación (≥2)</td>
+<td style="text-align: right;">0,70</td>
+<td style="text-align: right;">0,84</td>
+<td style="text-align: right;">99,51</td>
+<td style="text-align: right;">0,679</td>
+<td style="text-align: right;">6 565</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-r-inyeccion" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-r-inyeccion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;2: Errores inyectados: F1 y AUC en Python y en R.
+</figcaption>
+<div aria-describedby="tbl-r-inyeccion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Modelo</th>
+<th>Método</th>
+<th style="text-align: right;">F1 Python</th>
+<th style="text-align: right;">F1 R</th>
+<th style="text-align: right;">AUC Python</th>
+<th style="text-align: right;">AUC R</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3 variables</td>
+<td>k-Means</td>
+<td style="text-align: right;">0,609</td>
+<td style="text-align: right;">0,577</td>
+<td style="text-align: right;">0,799</td>
+<td style="text-align: right;">0,795</td>
+</tr>
+<tr class="even">
+<td>3 variables</td>
+<td>Votación (≥2)</td>
+<td style="text-align: right;">0,617</td>
+<td style="text-align: right;">0,583</td>
+<td style="text-align: right;">0,764</td>
+<td style="text-align: right;">0,794</td>
+</tr>
+<tr class="odd">
+<td>16 variables</td>
+<td>k-Means</td>
+<td style="text-align: right;">0,662</td>
+<td style="text-align: right;">0,633</td>
+<td style="text-align: right;">0,981</td>
+<td style="text-align: right;">0,985</td>
+</tr>
+<tr class="even">
+<td>16 variables</td>
+<td>Votación (≥2)</td>
+<td style="text-align: right;">0,530</td>
+<td style="text-align: right;">0,527</td>
+<td style="text-align: right;">0,949</td>
+<td style="text-align: right;">0,968</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-r-temporal" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-r-temporal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;3: Validación temporal 2016–2025 (promedio de los 9 años de prueba).
+</figcaption>
+<div aria-describedby="tbl-r-temporal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Modelo</th>
+<th style="text-align: right;">F1 medio Python</th>
+<th style="text-align: right;">F1 medio R</th>
+<th style="text-align: right;">AUC medio Python</th>
+<th style="text-align: right;">AUC medio R</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3 variables</td>
+<td style="text-align: right;">0,635</td>
+<td style="text-align: right;">0,617</td>
+<td style="text-align: right;">0,767</td>
+<td style="text-align: right;">0,794</td>
+</tr>
+<tr class="even">
+<td>16 variables</td>
+<td style="text-align: right;">0,646</td>
+<td style="text-align: right;">0,670</td>
+<td style="text-align: right;">0,944</td>
+<td style="text-align: right;">0,974</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Las conclusiones del informe se mantienen en R: con 16 variables k-Means es el mejor detector individual, Isolation Forest pierde casi toda su capacidad y la votación ordena mejor a los sospechosos (AUC mayor) con un F1 parecido al del modelo de 3 variables.</p>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figuras/R/f5_inyeccion.png" class="img-fluid figure-img"></p>
+<figcaption>Errores inyectados (R).</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figuras/R/f6_temporal.png" class="img-fluid figure-img"></p>
+<figcaption>Validación temporal (R).</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="scripts" class="level2">
+<h2 class="anchored" data-anchor-id="scripts">Scripts</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">00 · Configuración</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Funciones</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">01 · Datos</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">02 · Variables</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false">03 · Modelos</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false">04 · Resultados</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-7-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-7" role="tab" aria-controls="tabset-1-7" aria-selected="false">05 · Validación</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-8-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-8" role="tab" aria-controls="tabset-1-8" aria-selected="false">Ejecutar todo</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-9-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-9" role="tab" aria-controls="tabset-1-9" aria-selected="false">Exportar base</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>scripts/R/00_configuracion.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb1" data-filename="scripts/R/00_configuracion.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 00_configuracion.R · Paquetes, rutas y parámetros</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Abrir el proyecto "ena-anomalias-2015-2025.Rproj" en RStudio: el directorio</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># de trabajo queda en la raíz del repositorio y las rutas de abajo funcionan.</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>paquetes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"data.table"</span>, <span class="st">"ggplot2"</span>, <span class="st">"isotree"</span>, <span class="st">"dbscan"</span>, <span class="st">"cluster"</span>, <span class="st">"readxl"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>faltan <span class="ot">&lt;-</span> paquetes[<span class="sc">!</span><span class="fu">vapply</span>(paquetes, requireNamespace, <span class="fu">logical</span>(<span class="dv">1</span>), <span class="at">quietly =</span> <span class="cn">TRUE</span>)]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(faltan)) <span class="fu">install.packages</span>(faltan)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># ---- Rutas ----</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>RUTA_BASE <span class="ot">&lt;-</span> <span class="st">"data/processed/ena_2014_2025_productor.csv.gz"</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>DIR_FIG   <span class="ot">&lt;-</span> <span class="st">"figuras/R"</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>DIR_RES   <span class="ot">&lt;-</span> <span class="st">"resultados/R"</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(DIR_FIG, <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(DIR_RES, <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># ---- Parámetros ----</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>SEMILLA <span class="ot">&lt;-</span> <span class="dv">2026</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>K_INFORME <span class="ot">&lt;-</span> <span class="dv">3</span>L   <span class="co"># número de grupos de k-Means usado en el informe</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>NUCLEOS <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="dv">1</span>L, parallel<span class="sc">::</span><span class="fu">detectCores</span>() <span class="sc">-</span> <span class="dv">1</span>L)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">setDTthreads</span>(NUCLEOS)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"scripts/R/funciones.R"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"Configuración lista · "</span>, NUCLEOS, <span class="st">" núcleos"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>scripts/R/funciones.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb2" data-filename="scripts/R/funciones.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># funciones.R · Detección de anomalías en la ENA 2015-2025 (versión en R)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Mismas etapas que ena_anomalias.py: variables, modelos y validación.</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Se carga desde 00_configuracion.R</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ---- Nombres de variables ---------------------------------------------------</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>NUMERICAS <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"z_rend"</span>, <span class="st">"z_precio"</span>, <span class="st">"z_area"</span>, <span class="st">"z_sembrada"</span>, <span class="st">"z_cosechado"</span>, <span class="st">"z_venta"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>               <span class="st">"z_hogar"</span>, <span class="st">"z_animales"</span>, <span class="st">"z_semilla"</span>, <span class="st">"z_cosechas"</span>, <span class="st">"z_precio_hogar"</span>, <span class="st">"z_meses"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>CONTINUAS <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"z_rend"</span>, <span class="st">"z_precio"</span>, <span class="st">"z_area"</span>, <span class="st">"z_sembrada"</span>, <span class="st">"z_precio_hogar"</span>)   <span class="co"># entran al z-score</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>CATEGORICAS <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tipo_cultivo"</span>, <span class="st">"regimen_tenencia"</span>, <span class="st">"fuente_agua"</span>, <span class="st">"region_natural"</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>VARS_3  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"z_rend"</span>, <span class="st">"z_precio"</span>, <span class="st">"z_area"</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>VARS_16 <span class="ot">&lt;-</span> <span class="fu">c</span>(NUMERICAS, CATEGORICAS)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>NOMBRES <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">z_rend =</span> <span class="st">"Rendimiento (kg/ha)"</span>, <span class="at">z_precio =</span> <span class="st">"Precio de venta por kg"</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>             <span class="at">z_area =</span> <span class="st">"Superficie cosechada"</span>, <span class="at">z_sembrada =</span> <span class="st">"Superficie sembrada"</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">z_cosechado =</span> <span class="st">"% de lo sembrado que se cosechó"</span>, <span class="at">z_venta =</span> <span class="st">"% de la producción vendida"</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">z_hogar =</span> <span class="st">"% para consumo del hogar"</span>, <span class="at">z_animales =</span> <span class="st">"% para alimento de animales"</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">z_semilla =</span> <span class="st">"% guardado como semilla"</span>, <span class="at">z_cosechas =</span> <span class="st">"Número de cosechas"</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>             <span class="at">z_precio_hogar =</span> <span class="st">"Precio por kg del autoconsumo"</span>, <span class="at">z_meses =</span> <span class="st">"Meses entre siembra y cosecha"</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>METODOS <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">flag_z =</span> <span class="st">"Z-score robusto"</span>, <span class="at">flag_if =</span> <span class="st">"Isolation Forest"</span>, <span class="at">flag_km =</span> <span class="st">"k-Means"</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>             <span class="at">flag_db =</span> <span class="st">"DBSCAN"</span>, <span class="at">anomalia =</span> <span class="st">"Votación (≥2)"</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>SCORES  <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">flag_z =</span> <span class="st">"score_z"</span>, <span class="at">flag_if =</span> <span class="st">"score_if"</span>, <span class="at">flag_km =</span> <span class="st">"score_km"</span>,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>             <span class="at">flag_db =</span> <span class="st">"score_db"</span>, <span class="at">anomalia =</span> <span class="st">"score_voto"</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co"># ---- Auxiliares --------------------------------------------------------------</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>pos  <span class="ot">&lt;-</span> <span class="cf">function</span>(x) data.table<span class="sc">::</span><span class="fu">fifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(x) <span class="sc">&amp;</span> x <span class="sc">&gt;</span> <span class="dv">0</span>, x, <span class="cn">NA_real_</span>)   <span class="co"># 0 o negativo -&gt; NA</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>cero <span class="ot">&lt;-</span> <span class="cf">function</span>(x) data.table<span class="sc">::</span><span class="fu">fifelse</span>(<span class="fu">is.na</span>(x), <span class="dv">0</span>, x)                   <span class="co"># NA -&gt; 0</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>por_grupo <span class="ot">&lt;-</span> <span class="cf">function</span>(x, g, f) {          <span class="co"># aplica f dentro de cada grupo y devuelve un vector alineado</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  data.table<span class="sc">::</span><span class="fu">data.table</span>(<span class="at">x =</span> x, <span class="at">g =</span> g)[, r <span class="sc">:</span><span class="er">=</span> <span class="fu">f</span>(x), by <span class="ot">=</span> g]<span class="sc">$</span>r</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="co"># z robusto del log: (log x - mediana) / (1,4826 * MAD) dentro del grupo.</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Si el grupo tiene menos de 30 valores válidos se usa el grupo amplio (cultivo × año).</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co"># La MAD tiene un piso de 0,05 (escala log) para que grupos casi constantes no den z enormes.</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Faltante -&gt; 0 (neutral)</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>z_robusto <span class="ot">&lt;-</span> <span class="cf">function</span>(x, g, <span class="at">g_amplio =</span> g, <span class="at">min_n =</span> <span class="dv">30</span>, <span class="at">piso =</span> <span class="fl">0.05</span>) {</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  lx  <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fu">pos</span>(x))</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  est <span class="ot">&lt;-</span> <span class="cf">function</span>(gr) data.table<span class="sc">::</span><span class="fu">data.table</span>(<span class="at">v =</span> lx, <span class="at">g =</span> gr)[, <span class="st">`</span><span class="at">:=</span><span class="st">`</span>(</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(v)), <span class="at">med =</span> stats<span class="sc">::</span><span class="fu">median</span>(v, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">s =</span> stats<span class="sc">::</span><span class="fu">mad</span>(v, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)), by <span class="ot">=</span> g]</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="fu">est</span>(g); b <span class="ot">&lt;-</span> <span class="fu">est</span>(g_amplio)</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  usar_b <span class="ot">&lt;-</span> a<span class="sc">$</span>n <span class="sc">&lt;</span> min_n</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  med <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fifelse</span>(usar_b, b<span class="sc">$</span>med, a<span class="sc">$</span>med)</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  s   <span class="ot">&lt;-</span> <span class="fu">pmax</span>(data.table<span class="sc">::</span><span class="fu">fifelse</span>(usar_b, b<span class="sc">$</span>s, a<span class="sc">$</span>s), piso)</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  z   <span class="ot">&lt;-</span> (lx <span class="sc">-</span> med) <span class="sc">/</span> s</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  z[<span class="sc">!</span><span class="fu">is.finite</span>(z)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  z</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="co"># desvío: (x - mediana del grupo) / desviación estándar global. Faltante -&gt; 0</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>desvio_grupo <span class="ot">&lt;-</span> <span class="cf">function</span>(x, g) {</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>  med <span class="ot">&lt;-</span> <span class="fu">por_grupo</span>(x, g, <span class="cf">function</span>(v) stats<span class="sc">::</span><span class="fu">median</span>(v, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>  z   <span class="ot">&lt;-</span> (x <span class="sc">-</span> med) <span class="sc">/</span> stats<span class="sc">::</span><span class="fu">sd</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>  z[<span class="sc">!</span><span class="fu">is.finite</span>(z)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>  z</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="co"># ---- Etapa 3 · Variables ---------------------------------------------------</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>crear_variables <span class="ot">&lt;-</span> <span class="cf">function</span>(base) {</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">copy</span>(base)</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>  <span class="co"># se quitan las marcas de Python que trae la base (el modelo las vuelve a calcular)</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>  marcas <span class="ot">&lt;-</span> <span class="fu">intersect</span>(<span class="fu">c</span>(<span class="st">"flag_z"</span>, <span class="st">"flag_if"</span>, <span class="st">"flag_km"</span>, <span class="st">"flag_db"</span>, <span class="st">"votos"</span>, <span class="st">"anomalia"</span>), <span class="fu">names</span>(d))</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(marcas)) d[, (marcas) <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>  <span class="co"># cifras derivadas (se recalculan para que los errores inyectados se propaguen)</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>  d[, prod_kg <span class="sc">:</span><span class="er">=</span> cant_cosechada <span class="sc">*</span> equiv_kg]</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>  d[, rend_kg_ha <span class="sc">:</span><span class="er">=</span> prod_kg <span class="sc">/</span> sup_cosechada_ha]</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>  d[, precio_kg <span class="sc">:</span><span class="er">=</span> valor_venta <span class="sc">/</span> (cant_vendida <span class="sc">*</span> equiv_kg)]</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>  d[, precio_hogar_kg <span class="sc">:</span><span class="er">=</span> valor_hogar <span class="sc">/</span> (cant_hogar <span class="sc">*</span> equiv_kg)]</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>  <span class="co"># grupo de comparación: cultivo × año × región natural (cultivo × año si hay &lt; 30 registros)</span></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>  d[, n_grupo <span class="sc">:</span><span class="er">=</span> .N, by <span class="ot">=</span> .(anio, cultivo, region_natural)]</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>  d[, grupo_amplio <span class="sc">:</span><span class="er">=</span> <span class="fu">paste</span>(anio, cultivo)]</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>  d[, grupo <span class="sc">:</span><span class="er">=</span> data.table<span class="sc">::</span><span class="fu">fifelse</span>(n_grupo <span class="sc">&gt;=</span> <span class="dv">30</span>, <span class="fu">paste</span>(anio, cultivo, region_natural), grupo_amplio)]</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>  d[, <span class="st">`</span><span class="at">:=</span><span class="st">`</span>(</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">z_rend         =</span> <span class="fu">z_robusto</span>(rend_kg_ha, grupo, grupo_amplio),</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>    <span class="at">z_precio       =</span> <span class="fu">z_robusto</span>(precio_kg, grupo, grupo_amplio),</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">z_area         =</span> <span class="fu">z_robusto</span>(sup_cosechada_ha, grupo, grupo_amplio),</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">z_sembrada     =</span> <span class="fu">z_robusto</span>(sup_sembrada_ha, grupo, grupo_amplio),</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>    <span class="at">z_cosechado    =</span> <span class="fu">desvio_grupo</span>(sup_cosechada_ha <span class="sc">/</span> <span class="fu">pos</span>(sup_sembrada_ha), grupo),</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>    <span class="at">z_venta        =</span> <span class="fu">desvio_grupo</span>(<span class="fu">cero</span>(cant_vendida)  <span class="sc">/</span> cant_cosechada, grupo),</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>    <span class="at">z_hogar        =</span> <span class="fu">desvio_grupo</span>(<span class="fu">cero</span>(cant_hogar)    <span class="sc">/</span> cant_cosechada, grupo),</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>    <span class="at">z_animales     =</span> <span class="fu">desvio_grupo</span>(<span class="fu">cero</span>(cant_animales) <span class="sc">/</span> cant_cosechada, grupo),</span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>    <span class="at">z_semilla      =</span> <span class="fu">desvio_grupo</span>(<span class="fu">cero</span>(cant_semilla)  <span class="sc">/</span> cant_cosechada, grupo),</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>    <span class="at">z_cosechas     =</span> <span class="fu">desvio_grupo</span>(<span class="fu">log</span>(n_cosechas), grupo),</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">z_precio_hogar =</span> <span class="fu">z_robusto</span>(precio_hogar_kg, grupo, grupo_amplio),</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">z_meses        =</span> <span class="fu">desvio_grupo</span>(<span class="fu">as.numeric</span>(meses_siembra_cosecha), grupo)</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>  )]</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>  <span class="co"># se conservan solo las columnas que usa el análisis (ahorra memoria)</span></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>  quedan <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"anio"</span>, <span class="st">"departamento"</span>, <span class="st">"cultivo"</span>, <span class="st">"region_natural"</span>, <span class="st">"tipo_cultivo"</span>, <span class="st">"regimen_tenencia"</span>,</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>              <span class="st">"fuente_agua"</span>, <span class="st">"sup_cosechada_ha"</span>, <span class="st">"sup_sembrada_ha"</span>, <span class="st">"prod_kg"</span>, <span class="st">"rend_kg_ha"</span>, <span class="st">"precio_kg"</span>,</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>              <span class="st">"n_cosechas"</span>, NUMERICAS)</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>  d[, <span class="fu">setdiff</span>(<span class="fu">names</span>(d), quedan) <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>  d[]</span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a><span class="co"># niveles fijos de las categóricas (los mismos en entrenamiento y prueba)</span></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>niveles_categoricas <span class="ot">&lt;-</span> <span class="cf">function</span>(base) {</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(stats<span class="sc">::</span><span class="fu">setNames</span>(CATEGORICAS, CATEGORICAS), <span class="cf">function</span>(c) <span class="fu">sort</span>(<span class="fu">unique</span>(stats<span class="sc">::</span><span class="fu">na.omit</span>(base[[c]]))))</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a><span class="co"># matriz numérica del modelo: z numéricos + categóricas en 0/1</span></span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>matriz <span class="ot">&lt;-</span> <span class="cf">function</span>(d, V, <span class="at">niveles =</span> NIVELES) {</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>  num <span class="ot">&lt;-</span> <span class="fu">intersect</span>(V, NUMERICAS)</span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>  cat_cols <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">intersect</span>(V, CATEGORICAS), <span class="cf">function</span>(c) <span class="fu">paste0</span>(c, <span class="st">"_"</span>, niveles[[c]])))</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(d), <span class="fu">length</span>(num) <span class="sc">+</span> <span class="fu">length</span>(cat_cols), <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(num, cat_cols)))</span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (v <span class="cf">in</span> num) X[, v] <span class="ot">&lt;-</span> d[[v]]</span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (c <span class="cf">in</span> <span class="fu">intersect</span>(V, CATEGORICAS)) <span class="cf">for</span> (l <span class="cf">in</span> niveles[[c]])</span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>    X[, <span class="fu">paste0</span>(c, <span class="st">"_"</span>, l)] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="sc">!</span><span class="fu">is.na</span>(d[[c]]) <span class="sc">&amp;</span> d[[c]] <span class="sc">==</span> l)</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>  X</span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a><span class="co"># ---- Etapa 4 · Modelos -----------------------------------------------------</span></span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a><span class="co"># Se separa "ajustar" (aprender del entrenamiento) de "aplicar" (marcar registros),</span></span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a><span class="co"># así sirve igual para el modelo completo y para la validación temporal.</span></span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>ajustar_detectores <span class="ot">&lt;-</span> <span class="cf">function</span>(X, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">contaminacion =</span> <span class="fl">0.01</span>, <span class="at">n_dbscan =</span> <span class="dv">40000</span>, <span class="at">min_pts =</span> <span class="dv">20</span>,</span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>                               <span class="at">arboles =</span> <span class="dv">200</span>, <span class="at">semilla =</span> SEMILLA, <span class="at">nucleos =</span> NUCLEOS) {</span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(semilla)</span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">k =</span> k, <span class="at">cont =</span> contaminacion)</span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Isolation Forest (200 árboles, submuestras de 256, cortes en un solo eje como scikit-learn)</span></span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>  m<span class="sc">$</span>iforest <span class="ot">&lt;-</span> isotree<span class="sc">::</span><span class="fu">isolation.forest</span>(X, <span class="at">ntrees =</span> arboles, <span class="at">sample_size =</span> <span class="dv">256</span>, <span class="at">ndim =</span> <span class="dv">1</span>,</span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">missing_action =</span> <span class="st">"fail"</span>, <span class="at">nthreads =</span> nucleos, <span class="at">seed =</span> semilla)</span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>  m<span class="sc">$</span>umbral_if <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">quantile</span>(stats<span class="sc">::</span><span class="fu">predict</span>(m<span class="sc">$</span>iforest, X, <span class="at">nthreads =</span> nucleos), <span class="dv">1</span> <span class="sc">-</span> contaminacion)</span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>  <span class="co"># k-Means: umbral = percentil 99 de la distancia al centroide</span></span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>  km <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(stats<span class="sc">::</span><span class="fu">kmeans</span>(X, <span class="at">centers =</span> k, <span class="at">nstart =</span> <span class="dv">3</span>, <span class="at">iter.max =</span> <span class="dv">300</span>, <span class="at">algorithm =</span> <span class="st">"Lloyd"</span>))</span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>  m<span class="sc">$</span>centros <span class="ot">&lt;-</span> km<span class="sc">$</span>centers</span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>  m<span class="sc">$</span>umbral_km <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">quantile</span>(<span class="fu">dist_centro</span>(X, m<span class="sc">$</span>centros)<span class="sc">$</span>dist, <span class="dv">1</span> <span class="sc">-</span> contaminacion)</span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>  <span class="co"># DBSCAN en una muestra; eps = percentil 98 de la curva k-distancia</span></span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>  S <span class="ot">&lt;-</span> X[<span class="fu">sample.int</span>(<span class="fu">nrow</span>(X), <span class="fu">min</span>(n_dbscan, <span class="fu">nrow</span>(X))), , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a>  m<span class="sc">$</span>eps <span class="ot">&lt;-</span> <span class="fu">unname</span>(stats<span class="sc">::</span><span class="fu">quantile</span>(dbscan<span class="sc">::</span><span class="fu">kNNdist</span>(S, <span class="at">k =</span> min_pts), <span class="fl">0.98</span>))</span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>  <span class="co"># punto núcleo: tiene minPts puntos (incluido él mismo) a distancia &lt;= eps</span></span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>  nucleo <span class="ot">&lt;-</span> dbscan<span class="sc">::</span><span class="fu">kNNdist</span>(S, <span class="at">k =</span> min_pts <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">&lt;=</span> m<span class="sc">$</span>eps</span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>  m<span class="sc">$</span>nucleos_db <span class="ot">&lt;-</span> <span class="fu">unique</span>(S[nucleo, , <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>  m</span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a><span class="co"># distancia de cada fila al centroide más cercano: ||x||² - 2·x·c + ||c||² (sin copiar la matriz)</span></span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>dist_centro <span class="ot">&lt;-</span> <span class="cf">function</span>(X, centros) {</span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a>  D2 <span class="ot">&lt;-</span> <span class="fu">outer</span>(<span class="fu">rowSums</span>(X<span class="sc">^</span><span class="dv">2</span>), <span class="fu">rowSums</span>(centros<span class="sc">^</span><span class="dv">2</span>), <span class="st">"+"</span>) <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> (X <span class="sc">%*%</span> <span class="fu">t</span>(centros))</span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a>  cl <span class="ot">&lt;-</span> <span class="fu">max.col</span>(<span class="sc">-</span>D2, <span class="at">ties.method =</span> <span class="st">"first"</span>)</span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">cluster =</span> cl, <span class="at">dist =</span> <span class="fu">sqrt</span>(<span class="fu">pmax</span>(D2[<span class="fu">cbind</span>(<span class="fu">seq_along</span>(cl), cl)], <span class="dv">0</span>)))</span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a>aplicar_detectores <span class="ot">&lt;-</span> <span class="cf">function</span>(m, X, Zc, <span class="at">nucleos =</span> NUCLEOS) {</span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">data.table</span>(<span class="at">score_z =</span> <span class="cf">if</span> (<span class="fu">ncol</span>(Zc)) <span class="fu">apply</span>(<span class="fu">abs</span>(Zc), <span class="dv">1</span>, max) <span class="cf">else</span> <span class="dv">0</span>)</span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>  r[, flag_z <span class="sc">:</span><span class="er">=</span> <span class="fu">as.integer</span>(score_z <span class="sc">&gt;</span> <span class="fl">3.5</span>)]</span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a>  r[, score_if <span class="sc">:</span><span class="er">=</span> stats<span class="sc">::</span><span class="fu">predict</span>(m<span class="sc">$</span>iforest, X, <span class="at">nthreads =</span> nucleos)]</span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a>  r[, flag_if <span class="sc">:</span><span class="er">=</span> <span class="fu">as.integer</span>(score_if <span class="sc">&gt;</span> m<span class="sc">$</span>umbral_if)]</span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>  dc <span class="ot">&lt;-</span> <span class="fu">dist_centro</span>(X, m<span class="sc">$</span>centros)</span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>  r[, <span class="st">`</span><span class="at">:=</span><span class="st">`</span>(<span class="at">cluster_km =</span> dc<span class="sc">$</span>cluster, <span class="at">score_km =</span> dc<span class="sc">$</span>dist)]</span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>  r[, flag_km <span class="sc">:</span><span class="er">=</span> <span class="fu">as.integer</span>(score_km <span class="sc">&gt;</span> m<span class="sc">$</span>umbral_km)]</span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>  r[, score_db <span class="sc">:</span><span class="er">=</span> dbscan<span class="sc">::</span><span class="fu">kNN</span>(m<span class="sc">$</span>nucleos_db, <span class="at">k =</span> <span class="dv">1</span>, <span class="at">query =</span> X)<span class="sc">$</span>dist[, <span class="dv">1</span>]]</span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a>  r[, flag_db <span class="sc">:</span><span class="er">=</span> <span class="fu">as.integer</span>(score_db <span class="sc">&gt;</span> m<span class="sc">$</span>eps)]</span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>  r[, votos <span class="sc">:</span><span class="er">=</span> flag_z <span class="sc">+</span> flag_if <span class="sc">+</span> flag_km <span class="sc">+</span> flag_db]</span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>  r[, anomalia <span class="sc">:</span><span class="er">=</span> <span class="fu">as.integer</span>(votos <span class="sc">&gt;=</span> <span class="dv">2</span>)]</span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>  <span class="co"># puntaje continuo de la votación: votos + promedio de rangos de los 4 puntajes (desempate)</span></span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>  rk <span class="ot">&lt;-</span> (data.table<span class="sc">::</span><span class="fu">frank</span>(r<span class="sc">$</span>score_z) <span class="sc">+</span> data.table<span class="sc">::</span><span class="fu">frank</span>(r<span class="sc">$</span>score_if) <span class="sc">+</span></span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>         data.table<span class="sc">::</span><span class="fu">frank</span>(r<span class="sc">$</span>score_km) <span class="sc">+</span> data.table<span class="sc">::</span><span class="fu">frank</span>(r<span class="sc">$</span>score_db)) <span class="sc">/</span> (<span class="dv">4</span> <span class="sc">*</span> (<span class="fu">nrow</span>(r) <span class="sc">+</span> <span class="dv">1</span>))</span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a>  r[, score_voto <span class="sc">:</span><span class="er">=</span> votos <span class="sc">+</span> rk]</span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a>  r[]</span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>detectar_todo <span class="ot">&lt;-</span> <span class="cf">function</span>(d, V, <span class="at">k =</span> <span class="dv">3</span>, ...) {</span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>  X  <span class="ot">&lt;-</span> <span class="fu">matriz</span>(d, V)</span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a>  Zc <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(d[, <span class="fu">intersect</span>(V, CONTINUAS), <span class="at">with =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a>  m  <span class="ot">&lt;-</span> <span class="fu">ajustar_detectores</span>(X, <span class="at">k =</span> k, ...)</span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aplicar_detectores</span>(m, X, Zc)</span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a>elegir_k <span class="ot">&lt;-</span> <span class="cf">function</span>(d, V, <span class="at">ks =</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">8</span>, <span class="at">n =</span> <span class="dv">10000</span>, <span class="at">semilla =</span> SEMILLA) {</span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(semilla)</span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">matriz</span>(d, V)[<span class="fu">sample.int</span>(<span class="fu">nrow</span>(d), n), ]</span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a>  D <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">dist</span>(X)</span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sapply</span>(stats<span class="sc">::</span><span class="fu">setNames</span>(ks, ks), <span class="cf">function</span>(k) {</span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a>    cl <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(stats<span class="sc">::</span><span class="fu">kmeans</span>(X, <span class="at">centers =</span> k, <span class="at">nstart =</span> <span class="dv">3</span>, <span class="at">iter.max =</span> <span class="dv">300</span>, <span class="at">algorithm =</span> <span class="st">"Lloyd"</span>))<span class="sc">$</span>cluster</span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(cluster<span class="sc">::</span><span class="fu">silhouette</span>(cl, D)[, <span class="st">"sil_width"</span>])</span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a>importancia_variables <span class="ot">&lt;-</span> <span class="cf">function</span>(d, r, <span class="at">vars =</span> NUMERICAS) {</span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> r<span class="sc">$</span>anomalia <span class="sc">==</span> <span class="dv">1</span></span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a>  data.table<span class="sc">::</span><span class="fu">rbindlist</span>(<span class="fu">lapply</span>(vars, <span class="cf">function</span>(v) {</span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a>    z <span class="ot">&lt;-</span> <span class="fu">abs</span>(d[[v]])</span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a>    data.table<span class="sc">::</span><span class="fu">data.table</span>(<span class="at">Variable =</span> NOMBRES[[v]], <span class="at">z_anomalos =</span> <span class="fu">mean</span>(z[a]), <span class="at">z_normales =</span> <span class="fu">mean</span>(z[<span class="sc">!</span>a]),</span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a>                           <span class="at">pct_anomalos_z35 =</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(z[a] <span class="sc">&gt;</span> <span class="fl">3.5</span>))</span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a>  }))[, Razon <span class="sc">:</span><span class="er">=</span> z_anomalos <span class="sc">/</span> z_normales][<span class="fu">order</span>(<span class="sc">-</span>Razon)]</span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a><span class="co"># ---- Etapa 5 · Validación --------------------------------------------------</span></span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a>auc_rangos <span class="ot">&lt;-</span> <span class="cf">function</span>(score, y) {           <span class="co"># AUC por Mann-Whitney (rápido para millones de filas)</span></span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">as.logical</span>(y); n1 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">sum</span>(y)); n0 <span class="ot">&lt;-</span> <span class="fu">length</span>(y) <span class="sc">-</span> n1   <span class="co"># numeric: evita desborde de enteros</span></span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">sum</span>(data.table<span class="sc">::</span><span class="fu">frank</span>(score)[y]) <span class="sc">-</span> n1 <span class="sc">*</span> (n1 <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">/</span> (n1 <span class="sc">*</span> n0)</span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a>metricas <span class="ot">&lt;-</span> <span class="cf">function</span>(y, flag, score) {</span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">as.logical</span>(y); f <span class="ot">&lt;-</span> <span class="fu">as.logical</span>(flag)</span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a>  tp <span class="ot">&lt;-</span> <span class="fu">sum</span>(f <span class="sc">&amp;</span> y); fp <span class="ot">&lt;-</span> <span class="fu">sum</span>(f <span class="sc">&amp;</span> <span class="sc">!</span>y); fn <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span>f <span class="sc">&amp;</span> y)</span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> tp <span class="sc">/</span> (tp <span class="sc">+</span> fp); rc <span class="ot">&lt;-</span> tp <span class="sc">/</span> (tp <span class="sc">+</span> fn)</span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">Precision =</span> p, <span class="at">Recall =</span> rc, <span class="at">F1 =</span> <span class="dv">2</span> <span class="sc">*</span> p <span class="sc">*</span> rc <span class="sc">/</span> (p <span class="sc">+</span> rc), <span class="at">AUC =</span> <span class="fu">auc_rangos</span>(score, y))</span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a>validar_silueta <span class="ot">&lt;-</span> <span class="cf">function</span>(d, r, V, <span class="at">n =</span> <span class="dv">10000</span>, <span class="at">semilla =</span> SEMILLA) {</span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(semilla)</span>
+<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> <span class="fu">sample.int</span>(<span class="fu">nrow</span>(d), n)</span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a>  D <span class="ot">&lt;-</span> stats<span class="sc">::</span><span class="fu">dist</span>(<span class="fu">matriz</span>(d[i], V))</span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="cf">function</span>(cl) <span class="cf">if</span> (<span class="fu">length</span>(<span class="fu">unique</span>(cl)) <span class="sc">&lt;</span> <span class="dv">2</span>) <span class="cn">NA_real_</span> <span class="cf">else</span> <span class="fu">mean</span>(cluster<span class="sc">::</span><span class="fu">silhouette</span>(<span class="fu">as.integer</span>(cl), D)[, <span class="st">"sil_width"</span>])</span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">s</span>(r<span class="sc">$</span>cluster_km[i]), <span class="fu">sapply</span>(<span class="fu">names</span>(METODOS), <span class="cf">function</span>(f) <span class="fu">s</span>(r[[f]][i] <span class="sc">+</span> <span class="dv">1</span>)))</span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(out) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">sprintf</span>(<span class="st">"k-Means (k=%d)"</span>, <span class="fu">max</span>(r<span class="sc">$</span>cluster_km)), <span class="fu">paste</span>(<span class="st">"Normal vs anómalo:"</span>, METODOS))</span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a>  out</span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a>reglas_logicas <span class="ot">&lt;-</span> <span class="cf">function</span>(base, <span class="at">tolerancia =</span> <span class="fl">0.10</span>) {</span>
+<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a>  data.table<span class="sc">::</span><span class="fu">data.table</span>(</span>
+<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a>    <span class="at">R1 =</span> <span class="fu">cero</span>(base<span class="sc">$</span>cant_vendida) <span class="sc">&gt;</span> base<span class="sc">$</span>cant_cosechada,</span>
+<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a>    <span class="at">R2 =</span> base<span class="sc">$</span>sup_cosechada_ha <span class="sc">&gt;</span> <span class="fu">pos</span>(base<span class="sc">$</span>sup_sembrada_ha),</span>
+<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a>    <span class="at">R3 =</span> <span class="fu">abs</span>(base<span class="sc">$</span>valor_venta <span class="sc">-</span> base<span class="sc">$</span>cant_vendida <span class="sc">*</span> base<span class="sc">$</span>precio_unidad) <span class="sc">&gt;</span> tolerancia <span class="sc">*</span> base<span class="sc">$</span>valor_venta</span>
+<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a>  )[, <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="sc">!</span><span class="fu">is.na</span>(x) <span class="sc">&amp;</span> x)]</span>
+<span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a>validar_reglas <span class="ot">&lt;-</span> <span class="cf">function</span>(base, r, <span class="at">tolerancia =</span> <span class="fl">0.10</span>) {</span>
+<span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a>  R <span class="ot">&lt;-</span> <span class="fu">reglas_logicas</span>(base, tolerancia)</span>
+<span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a>  tab <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">rbindlist</span>(<span class="fu">lapply</span>(<span class="fu">names</span>(R), <span class="cf">function</span>(regla) {</span>
+<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a>    caso <span class="ot">&lt;-</span> R[[regla]]</span>
+<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">sum</span>(caso) <span class="sc">==</span> <span class="dv">0</span>) <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a>    data.table<span class="sc">::</span><span class="fu">rbindlist</span>(<span class="fu">lapply</span>(<span class="fu">names</span>(METODOS), <span class="cf">function</span>(f) {</span>
+<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a>      det <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(r[[f]][caso]); resto <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(r[[f]][<span class="sc">!</span>caso])</span>
+<span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a>      data.table<span class="sc">::</span><span class="fu">data.table</span>(<span class="at">Regla =</span> regla, <span class="at">Casos =</span> <span class="fu">sum</span>(caso), <span class="at">Metodo =</span> METODOS[[f]],</span>
+<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a>                             <span class="at">Detectadas =</span> det, <span class="at">Marcadas_resto =</span> resto, <span class="at">Lift =</span> det <span class="sc">/</span> resto)</span>
+<span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a>    }))</span>
+<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a>  }))</span>
+<span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">casos =</span> <span class="fu">colSums</span>(R), <span class="at">tabla =</span> tab)</span>
+<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a><span class="co"># Errores típicos de digitación en el 1 % de registros normales.</span></span>
+<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a><span class="co"># Cada tipo se reparte por igual y solo entre registros donde el error cambia algo:</span></span>
+<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a><span class="co"># C solo en quienes venden (valor de venta &gt; 0) y D solo donde la superficie sembrada &gt; 0.</span></span>
+<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a>inyectar <span class="ot">&lt;-</span> <span class="cf">function</span>(base, candidatos, <span class="at">frac =</span> <span class="fl">0.01</span>, <span class="at">semilla =</span> SEMILLA) {</span>
+<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(semilla)</span>
+<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">copy</span>(base)</span>
+<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a>  n_tipo <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(frac <span class="sc">*</span> <span class="fu">length</span>(candidatos) <span class="sc">/</span> <span class="dv">5</span>)</span>
+<span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a>  elegibles <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a>    <span class="at">A =</span> candidatos, <span class="at">B =</span> candidatos, <span class="at">E =</span> candidatos,</span>
+<span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a>    <span class="at">C =</span> candidatos[<span class="fu">cero</span>(b<span class="sc">$</span>valor_venta[candidatos]) <span class="sc">&gt;</span> <span class="dv">0</span>],</span>
+<span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a>    <span class="at">D =</span> candidatos[<span class="fu">cero</span>(b<span class="sc">$</span>sup_sembrada_ha[candidatos]) <span class="sc">&gt;</span> <span class="dv">0</span>])</span>
+<span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a>  usados <span class="ot">&lt;-</span> <span class="fu">integer</span>(<span class="dv">0</span>); idx <span class="ot">&lt;-</span> <span class="fu">integer</span>(<span class="dv">0</span>); tipo <span class="ot">&lt;-</span> <span class="fu">character</span>(<span class="dv">0</span>)</span>
+<span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (t <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"E"</span>)) {            <span class="co"># primero los tipos con menos elegibles</span></span>
+<span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a>    pool <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(elegibles[[t]], usados)</span>
+<span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a>    i <span class="ot">&lt;-</span> pool[<span class="fu">sample.int</span>(<span class="fu">length</span>(pool), <span class="fu">min</span>(n_tipo, <span class="fu">length</span>(pool)))]</span>
+<span id="cb2-249"><a href="#cb2-249" aria-hidden="true" tabindex="-1"></a>    usados <span class="ot">&lt;-</span> <span class="fu">c</span>(usados, i); idx <span class="ot">&lt;-</span> <span class="fu">c</span>(idx, i); tipo <span class="ot">&lt;-</span> <span class="fu">c</span>(tipo, <span class="fu">rep</span>(t, <span class="fu">length</span>(i)))</span>
+<span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a>  iA <span class="ot">&lt;-</span> idx[tipo <span class="sc">==</span> <span class="st">"A"</span>]; iB <span class="ot">&lt;-</span> idx[tipo <span class="sc">==</span> <span class="st">"B"</span>]; iC <span class="ot">&lt;-</span> idx[tipo <span class="sc">==</span> <span class="st">"C"</span>]</span>
+<span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a>  iD <span class="ot">&lt;-</span> idx[tipo <span class="sc">==</span> <span class="st">"D"</span>]; iE <span class="ot">&lt;-</span> idx[tipo <span class="sc">==</span> <span class="st">"E"</span>]</span>
+<span id="cb2-253"><a href="#cb2-253" aria-hidden="true" tabindex="-1"></a>  b[iA, cant_cosechada <span class="sc">:</span><span class="er">=</span> cant_cosechada <span class="sc">*</span> <span class="dv">10</span>]                                       <span class="co"># A) producción × 10</span></span>
+<span id="cb2-254"><a href="#cb2-254" aria-hidden="true" tabindex="-1"></a>  b[iB, equiv_kg <span class="sc">:</span><span class="er">=</span> equiv_kg <span class="sc">*</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">1000</span>, <span class="dv">1</span><span class="sc">/</span><span class="dv">1000</span>), <span class="fu">length</span>(iB), <span class="at">replace =</span> <span class="cn">TRUE</span>)]  <span class="co"># B) kg &lt;-&gt; t</span></span>
+<span id="cb2-255"><a href="#cb2-255" aria-hidden="true" tabindex="-1"></a>  b[iC, valor_venta <span class="sc">:</span><span class="er">=</span> valor_venta <span class="sc">*</span> <span class="dv">10</span>]                                             <span class="co"># C) valor × 10</span></span>
+<span id="cb2-256"><a href="#cb2-256" aria-hidden="true" tabindex="-1"></a>  b[iD, sup_sembrada_ha <span class="sc">:</span><span class="er">=</span> sup_sembrada_ha <span class="sc">*</span> <span class="dv">10</span>]                                     <span class="co"># D) sembrada × 10</span></span>
+<span id="cb2-257"><a href="#cb2-257" aria-hidden="true" tabindex="-1"></a>  b[iE, n_cosechas <span class="sc">:</span><span class="er">=</span> n_cosechas <span class="sc">*</span> <span class="dv">10</span>L]                                              <span class="co"># E) cosechas × 10</span></span>
+<span id="cb2-258"><a href="#cb2-258" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">base =</span> b, <span class="at">idx =</span> idx, <span class="at">tipo =</span> tipo)</span>
+<span id="cb2-259"><a href="#cb2-259" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-260"><a href="#cb2-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-261"><a href="#cb2-261" aria-hidden="true" tabindex="-1"></a>ETIQUETAS_ERROR <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">A =</span> <span class="st">"A) producción × 10"</span>, <span class="at">B =</span> <span class="st">"B) kg ↔ t"</span>, <span class="at">C =</span> <span class="st">"C) valor × 10"</span>,</span>
+<span id="cb2-262"><a href="#cb2-262" aria-hidden="true" tabindex="-1"></a>                     <span class="at">D =</span> <span class="st">"D) sembrada × 10"</span>, <span class="at">E =</span> <span class="st">"E) cosechas × 10"</span>)</span>
+<span id="cb2-263"><a href="#cb2-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a>validar_inyeccion <span class="ot">&lt;-</span> <span class="cf">function</span>(base, V, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">frac =</span> <span class="fl">0.01</span>, <span class="at">semilla =</span> SEMILLA, <span class="at">previo =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb2-265"><a href="#cb2-265" aria-hidden="true" tabindex="-1"></a>  <span class="co"># previo: marca de anomalía (0/1) de los datos reales; si no se da, se calcula</span></span>
+<span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(previo)) previo <span class="ot">&lt;-</span> <span class="fu">detectar_todo</span>(<span class="fu">crear_variables</span>(base), V, k)<span class="sc">$</span>anomalia</span>
+<span id="cb2-267"><a href="#cb2-267" aria-hidden="true" tabindex="-1"></a>  inj <span class="ot">&lt;-</span> <span class="fu">inyectar</span>(base, <span class="fu">which</span>(previo <span class="sc">==</span> <span class="dv">0</span>), frac, semilla)</span>
+<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a>  d1  <span class="ot">&lt;-</span> <span class="fu">crear_variables</span>(inj<span class="sc">$</span>base); inj<span class="sc">$</span>base <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb2-269"><a href="#cb2-269" aria-hidden="true" tabindex="-1"></a>  r1  <span class="ot">&lt;-</span> <span class="fu">detectar_todo</span>(d1, V, k); <span class="fu">rm</span>(d1); <span class="fu">invisible</span>(<span class="fu">gc</span>())</span>
+<span id="cb2-270"><a href="#cb2-270" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(base)) <span class="sc">%in%</span> inj<span class="sc">$</span>idx</span>
+<span id="cb2-271"><a href="#cb2-271" aria-hidden="true" tabindex="-1"></a>  ok <span class="ot">&lt;-</span> y <span class="sc">|</span> previo <span class="sc">==</span> <span class="dv">0</span>                                           <span class="co"># previas no cuentan como falso positivo</span></span>
+<span id="cb2-272"><a href="#cb2-272" aria-hidden="true" tabindex="-1"></a>  met <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">rbindlist</span>(<span class="fu">lapply</span>(<span class="fu">names</span>(METODOS), <span class="cf">function</span>(f)</span>
+<span id="cb2-273"><a href="#cb2-273" aria-hidden="true" tabindex="-1"></a>    data.table<span class="sc">::</span><span class="fu">data.table</span>(<span class="at">Metodo =</span> METODOS[[f]],</span>
+<span id="cb2-274"><a href="#cb2-274" aria-hidden="true" tabindex="-1"></a>      <span class="fu">t</span>(<span class="fu">round</span>(<span class="fu">metricas</span>(y[ok], r1[[f]][ok], r1[[SCORES[[f]]]][ok]), <span class="dv">3</span>)))))</span>
+<span id="cb2-275"><a href="#cb2-275" aria-hidden="true" tabindex="-1"></a>  rec <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">rbindlist</span>(<span class="fu">lapply</span>(LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], <span class="cf">function</span>(t) {</span>
+<span id="cb2-276"><a href="#cb2-276" aria-hidden="true" tabindex="-1"></a>    i <span class="ot">&lt;-</span> inj<span class="sc">$</span>idx[inj<span class="sc">$</span>tipo <span class="sc">==</span> t]</span>
+<span id="cb2-277"><a href="#cb2-277" aria-hidden="true" tabindex="-1"></a>    data.table<span class="sc">::</span><span class="fu">as.data.table</span>(<span class="fu">c</span>(<span class="fu">list</span>(<span class="at">Error =</span> ETIQUETAS_ERROR[[t]]),</span>
+<span id="cb2-278"><a href="#cb2-278" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.list</span>(<span class="fu">sapply</span>(<span class="fu">names</span>(METODOS), <span class="cf">function</span>(f) <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(r1[[f]][i]), <span class="dv">1</span>)))))</span>
+<span id="cb2-279"><a href="#cb2-279" aria-hidden="true" tabindex="-1"></a>  }))</span>
+<span id="cb2-280"><a href="#cb2-280" aria-hidden="true" tabindex="-1"></a>  data.table<span class="sc">::</span><span class="fu">setnames</span>(rec, <span class="fu">names</span>(METODOS), <span class="fu">unname</span>(METODOS))</span>
+<span id="cb2-281"><a href="#cb2-281" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">metricas =</span> met, <span class="at">recall_tipo =</span> rec)</span>
+<span id="cb2-282"><a href="#cb2-282" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-283"><a href="#cb2-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-284"><a href="#cb2-284" aria-hidden="true" tabindex="-1"></a>validar_temporal <span class="ot">&lt;-</span> <span class="cf">function</span>(base, V, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">frac =</span> <span class="fl">0.01</span>, <span class="at">semilla =</span> SEMILLA) {</span>
+<span id="cb2-285"><a href="#cb2-285" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">crear_variables</span>(base)</span>
+<span id="cb2-286"><a href="#cb2-286" aria-hidden="true" tabindex="-1"></a>  anios <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(base<span class="sc">$</span>anio))</span>
+<span id="cb2-287"><a href="#cb2-287" aria-hidden="true" tabindex="-1"></a>  data.table<span class="sc">::</span><span class="fu">rbindlist</span>(<span class="fu">lapply</span>(anios[<span class="sc">-</span><span class="dv">1</span>], <span class="cf">function</span>(t) {</span>
+<span id="cb2-288"><a href="#cb2-288" aria-hidden="true" tabindex="-1"></a>    tr <span class="ot">&lt;-</span> d[anio <span class="sc">&lt;</span> t]</span>
+<span id="cb2-289"><a href="#cb2-289" aria-hidden="true" tabindex="-1"></a>    m  <span class="ot">&lt;-</span> <span class="fu">ajustar_detectores</span>(<span class="fu">matriz</span>(tr, V), <span class="at">k =</span> k)</span>
+<span id="cb2-290"><a href="#cb2-290" aria-hidden="true" tabindex="-1"></a>    zc <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">as.matrix</span>(x[, <span class="fu">intersect</span>(V, CONTINUAS), <span class="at">with =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb2-291"><a href="#cb2-291" aria-hidden="true" tabindex="-1"></a>    te0 <span class="ot">&lt;-</span> d[anio <span class="sc">==</span> t]</span>
+<span id="cb2-292"><a href="#cb2-292" aria-hidden="true" tabindex="-1"></a>    r0  <span class="ot">&lt;-</span> <span class="fu">aplicar_detectores</span>(m, <span class="fu">matriz</span>(te0, V), <span class="fu">zc</span>(te0))</span>
+<span id="cb2-293"><a href="#cb2-293" aria-hidden="true" tabindex="-1"></a>    bt  <span class="ot">&lt;-</span> base[anio <span class="sc">==</span> t]</span>
+<span id="cb2-294"><a href="#cb2-294" aria-hidden="true" tabindex="-1"></a>    inj <span class="ot">&lt;-</span> <span class="fu">inyectar</span>(bt, <span class="fu">which</span>(r0<span class="sc">$</span>anomalia <span class="sc">==</span> <span class="dv">0</span>), frac, semilla <span class="sc">+</span> t)</span>
+<span id="cb2-295"><a href="#cb2-295" aria-hidden="true" tabindex="-1"></a>    te1 <span class="ot">&lt;-</span> <span class="fu">crear_variables</span>(inj<span class="sc">$</span>base)</span>
+<span id="cb2-296"><a href="#cb2-296" aria-hidden="true" tabindex="-1"></a>    r1  <span class="ot">&lt;-</span> <span class="fu">aplicar_detectores</span>(m, <span class="fu">matriz</span>(te1, V), <span class="fu">zc</span>(te1))</span>
+<span id="cb2-297"><a href="#cb2-297" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rm</span>(tr, m); <span class="fu">invisible</span>(<span class="fu">gc</span>())</span>
+<span id="cb2-298"><a href="#cb2-298" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(bt)) <span class="sc">%in%</span> inj<span class="sc">$</span>idx; ok <span class="ot">&lt;-</span> y <span class="sc">|</span> r0<span class="sc">$</span>anomalia <span class="sc">==</span> <span class="dv">0</span></span>
+<span id="cb2-299"><a href="#cb2-299" aria-hidden="true" tabindex="-1"></a>    mv <span class="ot">&lt;-</span> <span class="fu">metricas</span>(y[ok], r1<span class="sc">$</span>anomalia[ok], r1<span class="sc">$</span>score_voto[ok])</span>
+<span id="cb2-300"><a href="#cb2-300" aria-hidden="true" tabindex="-1"></a>    mi <span class="ot">&lt;-</span> <span class="fu">metricas</span>(y[ok], r1<span class="sc">$</span>flag_if[ok], r1<span class="sc">$</span>score_if[ok])</span>
+<span id="cb2-301"><a href="#cb2-301" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="fu">sprintf</span>(<span class="st">"  %d: F1 votación = %.3f · AUC = %.3f"</span>, t, mv[<span class="st">"F1"</span>], mv[<span class="st">"AUC"</span>]))</span>
+<span id="cb2-302"><a href="#cb2-302" aria-hidden="true" tabindex="-1"></a>    data.table<span class="sc">::</span><span class="fu">data.table</span>(<span class="at">Anio_prueba =</span> t, <span class="at">Entrenado_con =</span> <span class="cf">if</span> (t <span class="sc">==</span> anios[<span class="dv">2</span>]) <span class="fu">as.character</span>(anios[<span class="dv">1</span>]) <span class="cf">else</span> <span class="fu">sprintf</span>(<span class="st">"%d-%d"</span>, <span class="fu">min</span>(anios), <span class="fu">max</span>(anios[anios <span class="sc">&lt;</span> t])),</span>
+<span id="cb2-303"><a href="#cb2-303" aria-hidden="true" tabindex="-1"></a>      <span class="at">Registros =</span> <span class="fu">nrow</span>(bt), <span class="at">Marcados_pct =</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(r1<span class="sc">$</span>anomalia), <span class="dv">3</span>),</span>
+<span id="cb2-304"><a href="#cb2-304" aria-hidden="true" tabindex="-1"></a>      <span class="at">F1_IF =</span> <span class="fu">round</span>(mi[<span class="st">"F1"</span>], <span class="dv">3</span>), <span class="at">AUC_IF =</span> <span class="fu">round</span>(mi[<span class="st">"AUC"</span>], <span class="dv">3</span>),</span>
+<span id="cb2-305"><a href="#cb2-305" aria-hidden="true" tabindex="-1"></a>      <span class="at">Precision_votacion =</span> <span class="fu">round</span>(mv[<span class="st">"Precision"</span>], <span class="dv">3</span>), <span class="at">Recall_votacion =</span> <span class="fu">round</span>(mv[<span class="st">"Recall"</span>], <span class="dv">3</span>),</span>
+<span id="cb2-306"><a href="#cb2-306" aria-hidden="true" tabindex="-1"></a>      <span class="at">F1_votacion =</span> <span class="fu">round</span>(mv[<span class="st">"F1"</span>], <span class="dv">3</span>), <span class="at">AUC_votacion =</span> <span class="fu">round</span>(mv[<span class="st">"AUC"</span>], <span class="dv">3</span>))</span>
+<span id="cb2-307"><a href="#cb2-307" aria-hidden="true" tabindex="-1"></a>  }))</span>
+<span id="cb2-308"><a href="#cb2-308" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-309"><a href="#cb2-309" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-310"><a href="#cb2-310" aria-hidden="true" tabindex="-1"></a><span class="co"># ---- Gráficos (estilo del informe: grises) ---------------------------------</span></span>
+<span id="cb2-311"><a href="#cb2-311" aria-hidden="true" tabindex="-1"></a>tema_ena <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb2-312"><a href="#cb2-312" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb2-313"><a href="#cb2-313" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">theme</span>(<span class="at">panel.grid.minor =</span> ggplot2<span class="sc">::</span><span class="fu">element_blank</span>(),</span>
+<span id="cb2-314"><a href="#cb2-314" aria-hidden="true" tabindex="-1"></a>                   <span class="at">plot.title =</span> ggplot2<span class="sc">::</span><span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="dv">0</span>),</span>
+<span id="cb2-315"><a href="#cb2-315" aria-hidden="true" tabindex="-1"></a>                   <span class="at">plot.title.position =</span> <span class="st">"plot"</span>)</span>
+<span id="cb2-316"><a href="#cb2-316" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-317"><a href="#cb2-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-318"><a href="#cb2-318" aria-hidden="true" tabindex="-1"></a>guardar_fig <span class="ot">&lt;-</span> <span class="cf">function</span>(p, nombre, <span class="at">ancho =</span> <span class="dv">7</span>, <span class="at">alto =</span> <span class="fl">3.5</span>) {</span>
+<span id="cb2-319"><a href="#cb2-319" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggsave</span>(<span class="fu">file.path</span>(DIR_FIG, <span class="fu">paste0</span>(nombre, <span class="st">".png"</span>)), p, <span class="at">width =</span> ancho, <span class="at">height =</span> alto, <span class="at">dpi =</span> <span class="dv">200</span>, <span class="at">bg =</span> <span class="st">"white"</span>)</span>
+<span id="cb2-320"><a href="#cb2-320" aria-hidden="true" tabindex="-1"></a>  <span class="fu">invisible</span>(p)</span>
+<span id="cb2-321"><a href="#cb2-321" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-322"><a href="#cb2-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-323"><a href="#cb2-323" aria-hidden="true" tabindex="-1"></a>guardar_tab <span class="ot">&lt;-</span> <span class="cf">function</span>(x, nombre) {</span>
+<span id="cb2-324"><a href="#cb2-324" aria-hidden="true" tabindex="-1"></a>  data.table<span class="sc">::</span><span class="fu">fwrite</span>(data.table<span class="sc">::</span><span class="fu">as.data.table</span>(x), <span class="fu">file.path</span>(DIR_RES, <span class="fu">paste0</span>(nombre, <span class="st">".csv"</span>)))</span>
+<span id="cb2-325"><a href="#cb2-325" aria-hidden="true" tabindex="-1"></a>  <span class="fu">invisible</span>(x)</span>
+<span id="cb2-326"><a href="#cb2-326" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>scripts/R/01_cargar_datos.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb3" data-filename="scripts/R/01_cargar_datos.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 01_cargar_datos.R · Etapas 1-2: base consolidada (ya integrada y limpia)</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># La integración SPSS 2014-2024 + CSV 2025 y la limpieza se hicieron en el</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># notebook de Python; aquí se parte del archivo depositado en Zenodo.</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">exists</span>(<span class="st">"SEMILLA"</span>)) <span class="fu">source</span>(<span class="st">"scripts/R/00_configuracion.R"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>ena <span class="ot">&lt;-</span> <span class="fu">fread</span>(RUTA_BASE, <span class="at">colClasses =</span> <span class="fu">list</span>(<span class="at">character =</span> <span class="st">"ccdd"</span>), <span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Base completa:"</span>, <span class="fu">format</span>(<span class="fu">nrow</span>(ena), <span class="at">big.mark =</span> <span class="st">" "</span>), <span class="st">"registros ×"</span>, <span class="fu">ncol</span>(ena), <span class="st">"columnas</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2014 no trae superficie, cantidad ni valor de venta: el modelo usa 2015-2025</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>base <span class="ot">&lt;-</span> ena[anio <span class="sc">&gt;=</span> <span class="dv">2015</span>]</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>NIVELES <span class="ot">&lt;-</span> <span class="fu">niveles_categoricas</span>(base)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>resumen_anios <span class="ot">&lt;-</span> ena[, .(<span class="at">registros =</span> .N, <span class="at">anomalias_python =</span> <span class="fu">sum</span>(anomalia, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)), by <span class="ot">=</span> anio][<span class="fu">order</span>(anio)]</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(resumen_anios)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(ena); <span class="fu">invisible</span>(<span class="fu">gc</span>())   <span class="co"># libera memoria: el resto del análisis usa "base"</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Embudo de limpieza (cifras del notebook de Python)</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>embudo <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"resultados/embudo_limpieza.csv"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>embudo[, paso <span class="sc">:</span><span class="er">=</span> <span class="fu">factor</span>(paso, <span class="at">levels =</span> <span class="fu">rev</span>(paso))]</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(embudo, <span class="fu">aes</span>(registros <span class="sc">/</span> <span class="fl">1e6</span>, paso)) <span class="sc">+</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"grey55"</span>, <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">format</span>(registros, <span class="at">big.mark =</span> <span class="st">" "</span>)), <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.1</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Millones de registros"</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Embudo de limpieza"</span>) <span class="sc">+</span> <span class="fu">tema_ena</span>()</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="fu">guardar_fig</span>(p, <span class="st">"f1_embudo"</span>, <span class="dv">8</span>, <span class="fl">4.6</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>scripts/R/02_variables.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb4" data-filename="scripts/R/02_variables.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 02_variables.R · Etapa 3: de 3 a 16 variables</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># z robusto del log (rendimiento, precios, superficies) y desvío respecto a la</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># mediana del grupo (proporciones, cosechas, meses). Grupo = cultivo × año ×</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># región natural (cultivo × año si tiene menos de 30 registros).</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">exists</span>(<span class="st">"base"</span>)) <span class="fu">source</span>(<span class="st">"scripts/R/01_cargar_datos.R"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>t0 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>dv <span class="ot">&lt;-</span> <span class="fu">crear_variables</span>(base)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Variables creadas en"</span>, <span class="fu">round</span>(<span class="fu">difftime</span>(<span class="fu">Sys.time</span>(), t0, <span class="at">units =</span> <span class="st">"secs"</span>)), <span class="st">"s</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Modelo ampliado:"</span>, <span class="fu">length</span>(NUMERICAS), <span class="st">"numéricas +"</span>, <span class="fu">length</span>(CATEGORICAS), <span class="st">"categóricas ="</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ncol</span>(<span class="fu">matriz</span>(dv[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], VARS_16)), <span class="st">"columnas tras pasar las categóricas a 0/1</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>desc <span class="ot">&lt;-</span> dv[, <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(z) <span class="fu">c</span>(<span class="at">media =</span> <span class="fu">mean</span>(z), <span class="at">de =</span> <span class="fu">sd</span>(z), <span class="at">p01 =</span> <span class="fu">quantile</span>(z, .<span class="dv">01</span>),</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">mediana =</span> <span class="fu">median</span>(z), <span class="at">p99 =</span> <span class="fu">quantile</span>(z, .<span class="dv">99</span>))), .SDcols <span class="ot">=</span> NUMERICAS]</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>desc <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">estadistico =</span> <span class="fu">c</span>(<span class="st">"media"</span>, <span class="st">"de"</span>, <span class="st">"p01"</span>, <span class="st">"mediana"</span>, <span class="st">"p99"</span>), <span class="fu">round</span>(desc, <span class="dv">2</span>))</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(desc)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="fu">guardar_tab</span>(desc, <span class="st">"descriptivos_variables"</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlación entre las 12 numéricas</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>corr <span class="ot">&lt;-</span> <span class="fu">cor</span>(dv[, ..NUMERICAS])</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(corr) <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">substr</span>(NOMBRES[NUMERICAS], <span class="dv">1</span>, <span class="dv">22</span>), <span class="fu">substr</span>(NOMBRES[NUMERICAS], <span class="dv">1</span>, <span class="dv">22</span>))</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Correlación absoluta máxima fuera de la diagonal:"</span>, <span class="fu">round</span>(<span class="fu">max</span>(<span class="fu">abs</span>(corr[<span class="fu">upper.tri</span>(corr)])), <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(<span class="fu">as.table</span>(corr))</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(cm, <span class="fu">aes</span>(V2, V1, <span class="at">fill =</span> N)) <span class="sc">+</span> <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">"%.1f"</span>, N), <span class="at">colour =</span> <span class="fu">abs</span>(N) <span class="sc">&gt;</span> .<span class="dv">5</span>), <span class="at">size =</span> <span class="fl">2.2</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"grey20"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"grey20"</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"black"</span>, <span class="st">"white"</span>)) <span class="sc">+</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Correlación entre las 12 variables numéricas"</span>) <span class="sc">+</span> <span class="fu">tema_ena</span>() <span class="sc">+</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">vjust =</span> .<span class="dv">5</span>))</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="fu">guardar_fig</span>(p, <span class="st">"f0_correlacion"</span>, <span class="fl">7.5</span>, <span class="dv">6</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>scripts/R/03_modelos.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb5" data-filename="scripts/R/03_modelos.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 03_modelos.R · Etapa 4: cuatro detectores + votación</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  Z-score robusto (|z| &gt; 3,5) · DBSCAN (ruido; muestra de 40 000, minPts 20,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  eps = percentil 98 k-distancia) · k-Means (1 % más lejano del centroide) ·</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  Isolation Forest (200 árboles, 1 %) · Votación: anomalía si &gt;= 2 métodos.</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">exists</span>(<span class="st">"dv"</span>)) <span class="fu">source</span>(<span class="st">"scripts/R/02_variables.R"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>sil_k <span class="ot">&lt;-</span> <span class="fu">elegir_k</span>(dv, VARS_16)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">round</span>(sil_k, <span class="dv">3</span>))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"k con mayor silueta ="</span>, <span class="fu">names</span>(<span class="fu">which.max</span>(sil_k)), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>K <span class="ot">&lt;-</span> K_INFORME   <span class="co"># el informe usa k = 3; cambiar a as.integer(names(which.max(sil_k))) para usar la mejor silueta</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"k usado ="</span>, K, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">guardar_tab</span>(<span class="fu">data.table</span>(<span class="at">k =</span> <span class="fu">names</span>(sil_k), <span class="at">silueta =</span> <span class="fu">round</span>(sil_k, <span class="dv">3</span>)), <span class="st">"silueta_por_k"</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>t0 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>r3  <span class="ot">&lt;-</span> <span class="fu">detectar_todo</span>(dv, VARS_3, <span class="at">k =</span> <span class="dv">3</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>r16 <span class="ot">&lt;-</span> <span class="fu">detectar_todo</span>(dv, VARS_16, <span class="at">k =</span> K)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Detección (3 y 16 variables):"</span>, <span class="fu">round</span>(<span class="fu">difftime</span>(<span class="fu">Sys.time</span>(), t0, <span class="at">units =</span> <span class="st">"secs"</span>)), <span class="st">"s</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>comp <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">Metodo =</span> <span class="fu">unname</span>(METODOS),</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>                   <span class="st">`</span><span class="at">3 variables (%)</span><span class="st">`</span>  <span class="ot">=</span> <span class="fu">sapply</span>(<span class="fu">names</span>(METODOS), <span class="cf">function</span>(f) <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(r3[[f]]), <span class="dv">2</span>)),</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>                   <span class="st">`</span><span class="at">16 variables (%)</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sapply</span>(<span class="fu">names</span>(METODOS), <span class="cf">function</span>(f) <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(r16[[f]]), <span class="dv">2</span>)))</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(comp)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="fu">guardar_tab</span>(comp, <span class="st">"marcados_3_vs_16"</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Anomalías en ambos modelos:"</span>, <span class="fu">sum</span>(r3<span class="sc">$</span>anomalia <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> r16<span class="sc">$</span>anomalia <span class="sc">==</span> <span class="dv">1</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">table</span>(<span class="at">votos =</span> r16<span class="sc">$</span>votos))</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Dispersión rendimiento vs precio</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(dv), <span class="dv">60000</span>)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">z_rend =</span> dv<span class="sc">$</span>z_rend[i], <span class="at">z_precio =</span> dv<span class="sc">$</span>z_precio[i], <span class="at">anomalia =</span> r16<span class="sc">$</span>anomalia[i])</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> s[anomalia <span class="sc">==</span> <span class="dv">0</span>], <span class="fu">aes</span>(<span class="fu">pmin</span>(<span class="fu">pmax</span>(z_rend, <span class="sc">-</span><span class="dv">25</span>), <span class="dv">25</span>), <span class="fu">pmin</span>(<span class="fu">pmax</span>(z_precio, <span class="sc">-</span><span class="dv">15</span>), <span class="dv">15</span>)),</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">"grey75"</span>, <span class="at">size =</span> .<span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> s[anomalia <span class="sc">==</span> <span class="dv">1</span>], <span class="fu">aes</span>(<span class="fu">pmin</span>(<span class="fu">pmax</span>(z_rend, <span class="sc">-</span><span class="dv">25</span>), <span class="dv">25</span>), <span class="fu">pmin</span>(<span class="fu">pmax</span>(z_precio, <span class="sc">-</span><span class="dv">15</span>), <span class="dv">15</span>)),</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>             <span class="at">shape =</span> <span class="dv">4</span>, <span class="at">size =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"z robusto del rendimiento"</span>, <span class="at">y =</span> <span class="st">"z robusto del precio por kg"</span>,</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Registros normales (gris) y anómalos (x), muestra de 60 000"</span>) <span class="sc">+</span> <span class="fu">tema_ena</span>()</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="fu">guardar_fig</span>(p, <span class="st">"f2_dispersion"</span>, <span class="fl">6.5</span>, <span class="fl">4.5</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>scripts/R/04_resultados.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb6" data-filename="scripts/R/04_resultados.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 04_resultados.R · Resultados descriptivos, caso Puno y comparación con Python</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">exists</span>(<span class="st">"r16"</span>)) <span class="fu">source</span>(<span class="st">"scripts/R/03_modelos.R"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"anio"</span>, <span class="st">"departamento"</span>, <span class="st">"cultivo"</span>, <span class="st">"sup_cosechada_ha"</span>, <span class="st">"sup_sembrada_ha"</span>, <span class="st">"prod_kg"</span>, <span class="st">"rend_kg_ha"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>          <span class="st">"precio_kg"</span>, <span class="st">"n_cosechas"</span>, <span class="st">"z_rend"</span>, <span class="st">"z_precio"</span>, <span class="st">"z_cosechado"</span>, <span class="st">"z_cosechas"</span>, <span class="st">"votos"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">cbind</span>(dv[, <span class="fu">setdiff</span>(cols, <span class="st">"votos"</span>), <span class="at">with =</span> <span class="cn">FALSE</span>], r16[, <span class="sc">!</span><span class="fu">c</span>(<span class="st">"cluster_km"</span>)])</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>d[, departamento <span class="sc">:</span><span class="er">=</span> <span class="fu">fifelse</span>(<span class="fu">is.na</span>(departamento) <span class="sc">|</span> departamento <span class="sc">==</span> <span class="st">""</span>, <span class="st">"Sin dato"</span>, departamento)]</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Por año</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>por_anio <span class="ot">&lt;-</span> d[, .(<span class="at">registros =</span> .N, <span class="at">anomalias =</span> <span class="fu">sum</span>(anomalia)), by <span class="ot">=</span> anio][<span class="fu">order</span>(anio)][, pct <span class="sc">:</span><span class="er">=</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> anomalias <span class="sc">/</span> registros, <span class="dv">2</span>)]</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(por_anio); <span class="fu">guardar_tab</span>(por_anio, <span class="st">"anomalias_por_anio"</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(por_anio, <span class="fu">aes</span>(<span class="fu">factor</span>(anio), pct)) <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"grey40"</span>, <span class="at">width =</span> .<span class="dv">6</span>) <span class="sc">+</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">format</span>(pct, <span class="at">decimal.mark =</span> <span class="st">","</span>, <span class="at">nsmall =</span> <span class="dv">1</span>, <span class="at">digits =</span> <span class="dv">1</span>)), <span class="at">vjust =</span> <span class="sc">-</span>.<span class="dv">4</span>, <span class="at">size =</span> <span class="fl">2.8</span>) <span class="sc">+</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"% de registros anómalos"</span>, <span class="at">title =</span> <span class="st">"Anomalías por año (2020 sin encuesta)"</span>) <span class="sc">+</span> <span class="fu">tema_ena</span>()</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="fu">guardar_fig</span>(p, <span class="st">"f3_por_anio"</span>, <span class="dv">7</span>, <span class="dv">3</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Por departamento</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>por_dep <span class="ot">&lt;-</span> d[departamento <span class="sc">!=</span> <span class="st">"Sin dato"</span>, .(<span class="at">registros =</span> .N, <span class="at">anomalias =</span> <span class="fu">sum</span>(anomalia)), by <span class="ot">=</span> departamento][registros <span class="sc">&gt;</span> <span class="dv">1000</span>]</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>por_dep[, pct <span class="sc">:</span><span class="er">=</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> anomalias <span class="sc">/</span> registros, <span class="dv">2</span>)][<span class="fu">order</span>(<span class="sc">-</span>pct)]</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="fu">guardar_tab</span>(por_dep[<span class="fu">order</span>(<span class="sc">-</span>pct)], <span class="st">"anomalias_por_departamento"</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(por_dep, <span class="fu">aes</span>(pct, <span class="fu">reorder</span>(departamento, pct), <span class="at">fill =</span> departamento <span class="sc">==</span> <span class="st">"Puno"</span>)) <span class="sc">+</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"grey65"</span>, <span class="st">"black"</span>)) <span class="sc">+</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"% de registros anómalos"</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Anomalías por departamento, 2015-2025 (Puno en negro)"</span>) <span class="sc">+</span> <span class="fu">tema_ena</span>()</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="fu">guardar_fig</span>(p, <span class="st">"f4_departamentos"</span>, <span class="fl">6.5</span>, <span class="fl">5.5</span>)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Por cultivo (&gt;= 5000 registros)</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>por_cultivo <span class="ot">&lt;-</span> d[, .(<span class="at">registros =</span> .N, <span class="at">anomalias =</span> <span class="fu">sum</span>(anomalia)), by <span class="ot">=</span> cultivo][registros <span class="sc">&gt;=</span> <span class="dv">5000</span>][, pct <span class="sc">:</span><span class="er">=</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> anomalias <span class="sc">/</span> registros, <span class="dv">2</span>)][<span class="fu">order</span>(<span class="sc">-</span>pct)]</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(por_cultivo, <span class="dv">10</span>)); <span class="fu">guardar_tab</span>(por_cultivo, <span class="st">"anomalias_por_cultivo"</span>)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Importancia de variables</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">importancia_variables</span>(dv, r16)</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(imp[, <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="cf">if</span> (<span class="fu">is.numeric</span>(x)) <span class="fu">round</span>(x, <span class="dv">2</span>) <span class="cf">else</span> x)]); <span class="fu">guardar_tab</span>(imp, <span class="st">"importancia_variables"</span>)</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(imp, <span class="fu">aes</span>(Razon, <span class="fu">reorder</span>(Variable, Razon))) <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"grey45"</span>) <span class="sc">+</span> <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"|z| medio de los anómalos ÷ |z| medio de los normales (escala log)"</span>, <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Peso de cada variable en las anomalías"</span>) <span class="sc">+</span> <span class="fu">tema_ena</span>()</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="fu">guardar_fig</span>(p, <span class="st">"f7_importancia"</span>, <span class="dv">7</span>, <span class="dv">4</span>)</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Top nacional y caso Puno</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>top <span class="ot">&lt;-</span> d[anomalia <span class="sc">==</span> <span class="dv">1</span>][<span class="fu">order</span>(<span class="sc">-</span>votos, <span class="sc">-</span>score_if)]</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="fu">guardar_tab</span>(top[<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, ..cols], <span class="st">"top_anomalias_nacional"</span>)</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>puno <span class="ot">&lt;-</span> d[departamento <span class="sc">==</span> <span class="st">"Puno"</span>]</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Puno: %s registros · %d anómalos (%.2f %%)</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">format</span>(<span class="fu">nrow</span>(puno), <span class="at">big.mark =</span> <span class="st">" "</span>),</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>            <span class="fu">sum</span>(puno<span class="sc">$</span>anomalia), <span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(puno<span class="sc">$</span>anomalia)))</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(puno[anomalia <span class="sc">==</span> <span class="dv">1</span>, .N, <span class="at">by =</span> cultivo][<span class="fu">order</span>(<span class="sc">-</span>N)][<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>])</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a><span class="fu">guardar_tab</span>(puno[anomalia <span class="sc">==</span> <span class="dv">1</span>][<span class="fu">order</span>(<span class="sc">-</span>votos, <span class="sc">-</span>score_if)][<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, ..cols], <span class="st">"top_anomalias_puno"</span>)</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Registros marcados por al menos un método</span></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a><span class="fu">guardar_tab</span>(d[votos <span class="sc">&gt;=</span> <span class="dv">1</span>, <span class="fu">c</span>(cols, <span class="fu">names</span>(METODOS)), <span class="at">with =</span> <span class="cn">FALSE</span>], <span class="st">"registros_marcados"</span>)</span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a><span class="co"># ---- Comparación con las marcas de Python (columnas flag_* de la base) ----</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>py <span class="ot">&lt;-</span> base[, .(flag_z, flag_if, flag_km, flag_db, anomalia)]</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>kappa <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) { po <span class="ot">&lt;-</span> <span class="fu">mean</span>(a <span class="sc">==</span> b); pe <span class="ot">&lt;-</span> <span class="fu">mean</span>(a) <span class="sc">*</span> <span class="fu">mean</span>(b) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(a)) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">mean</span>(b)); (po <span class="sc">-</span> pe) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> pe) }</span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>comp_py <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">lapply</span>(<span class="fu">names</span>(METODOS), <span class="cf">function</span>(f) <span class="fu">data.table</span>(</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>  <span class="at">Metodo =</span> METODOS[[f]], <span class="at">Python_pct =</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(py[[f]]), <span class="dv">2</span>), <span class="at">R_pct =</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(r16[[f]]), <span class="dv">2</span>),</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">Acuerdo_pct =</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">mean</span>(py[[f]] <span class="sc">==</span> r16[[f]]), <span class="dv">2</span>), <span class="at">Kappa =</span> <span class="fu">round</span>(<span class="fu">kappa</span>(py[[f]], r16[[f]]), <span class="dv">3</span>),</span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">Coinciden_anomalos =</span> <span class="fu">sum</span>(py[[f]] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> r16[[f]] <span class="sc">==</span> <span class="dv">1</span>))))</span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(comp_py); <span class="fu">guardar_tab</span>(comp_py, <span class="st">"comparacion_python_vs_R"</span>)</span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(d, top, puno, py); <span class="fu">invisible</span>(<span class="fu">gc</span>())   <span class="co"># libera memoria antes de la validación</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-7" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-7-tab">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>scripts/R/05_validacion.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb7" data-filename="scripts/R/05_validacion.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 05_validacion.R · Etapa 5: silueta, reglas lógicas, errores inyectados y</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># validación temporal (entrenar con años anteriores, probar en el siguiente).</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Siempre se compara el modelo de 3 con el de 16 variables.</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Tiempo aproximado: 25 min (validación temporal: 18 ajustes de los 4 detectores).</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">exists</span>(<span class="st">"r16"</span>)) <span class="fu">source</span>(<span class="st">"scripts/R/03_modelos.R"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (obj <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"d"</span>, <span class="st">"top"</span>, <span class="st">"puno"</span>, <span class="st">"py"</span>)) <span class="cf">if</span> (<span class="fu">exists</span>(obj)) <span class="fu">rm</span>(<span class="at">list =</span> obj)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">gc</span>())</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 5.1 Silueta (muestra de 10 000 registros)</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>sil <span class="ot">&lt;-</span> <span class="fu">validar_silueta</span>(dv, r16, VARS_16)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">round</span>(sil, <span class="dv">3</span>)); <span class="fu">guardar_tab</span>(<span class="fu">data.table</span>(<span class="at">Particion =</span> <span class="fu">names</span>(sil), <span class="at">Silueta =</span> <span class="fu">round</span>(sil, <span class="dv">3</span>)), <span class="st">"silueta"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 5.2 Reglas lógicas (R1 vendió &gt; cosechó · R2 cosechó &gt; sembró · R3 valor ≠ cantidad × precio)</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>vr16 <span class="ot">&lt;-</span> <span class="fu">validar_reglas</span>(base, r16); vr3 <span class="ot">&lt;-</span> <span class="fu">validar_reglas</span>(base, r3)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(vr16<span class="sc">$</span>casos)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>vr <span class="ot">&lt;-</span> <span class="fu">rbind</span>(vr3<span class="sc">$</span>tabla[, <span class="at">Modelo :=</span> <span class="st">"3 variables"</span>], vr16<span class="sc">$</span>tabla[, <span class="at">Modelo :=</span> <span class="st">"16 variables"</span>])</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(vr[Casos <span class="sc">&gt;</span> <span class="dv">10</span>, <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="cf">if</span> (<span class="fu">is.numeric</span>(x)) <span class="fu">round</span>(x, <span class="dv">2</span>) <span class="cf">else</span> x)]); <span class="fu">guardar_tab</span>(vr, <span class="st">"validacion_reglas"</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Desde aquí solo se usa "base" (los errores se inyectan en las cifras originales):</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co"># se libera dv para que la validación entre en memoria</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(dv); <span class="fu">invisible</span>(<span class="fu">gc</span>())</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 5.3 Errores inyectados (1 % de los registros normales)</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>t0 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>vi <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">`</span><span class="at">3 variables</span><span class="st">`</span>  <span class="ot">=</span> <span class="fu">validar_inyeccion</span>(base, VARS_3, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">previo =</span> r3<span class="sc">$</span>anomalia),</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>           <span class="st">`</span><span class="at">16 variables</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">validar_inyeccion</span>(base, VARS_16, <span class="at">k =</span> K, <span class="at">previo =</span> r16<span class="sc">$</span>anomalia))</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Inyección:"</span>, <span class="fu">round</span>(<span class="fu">difftime</span>(<span class="fu">Sys.time</span>(), t0, <span class="at">units =</span> <span class="st">"mins"</span>), <span class="dv">1</span>), <span class="st">"min</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>met <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">lapply</span>(<span class="fu">names</span>(vi), <span class="cf">function</span>(m) vi[[m]]<span class="sc">$</span>metricas[, <span class="at">Modelo :=</span> m]))</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>rec <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">lapply</span>(<span class="fu">names</span>(vi), <span class="cf">function</span>(m) vi[[m]]<span class="sc">$</span>recall_tipo[, <span class="at">Modelo :=</span> m]))</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(met); <span class="fu">print</span>(rec)</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="fu">guardar_tab</span>(met, <span class="st">"validacion_inyeccion"</span>); <span class="fu">guardar_tab</span>(rec, <span class="st">"recall_por_tipo_error"</span>)</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> met[, .(<span class="at">Metodo =</span> <span class="fu">factor</span>(Metodo, <span class="at">levels =</span> <span class="fu">unname</span>(METODOS)), <span class="at">F1 =</span> <span class="fu">as.numeric</span>(F1),</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>              <span class="at">Modelo =</span> <span class="fu">factor</span>(Modelo, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"3 variables"</span>, <span class="st">"16 variables"</span>)))]</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(f1, <span class="fu">aes</span>(Metodo, F1, <span class="at">fill =</span> Modelo)) <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(.<span class="dv">8</span>), <span class="at">width =</span> .<span class="dv">75</span>) <span class="sc">+</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"grey75"</span>, <span class="st">"grey15"</span>), <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="fl">1.05</span>) <span class="sc">+</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Errores inyectados: F1 con 3 y con 16 variables"</span>) <span class="sc">+</span> <span class="fu">tema_ena</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"top"</span>)</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="fu">guardar_fig</span>(p, <span class="st">"f5_inyeccion"</span>, <span class="dv">7</span>, <span class="fl">3.4</span>)</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="co"># 5.4 Validación temporal 2016-2025</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>t0 <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>vt <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">validar_temporal</span>(base, VARS_3, <span class="at">k =</span> <span class="dv">3</span>)[, <span class="at">Modelo :=</span> <span class="st">"3 variables"</span>],</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>            <span class="fu">validar_temporal</span>(base, VARS_16, <span class="at">k =</span> K)[, <span class="at">Modelo :=</span> <span class="st">"16 variables"</span>])</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Temporal:"</span>, <span class="fu">round</span>(<span class="fu">difftime</span>(<span class="fu">Sys.time</span>(), t0, <span class="at">units =</span> <span class="st">"mins"</span>), <span class="dv">1</span>), <span class="st">"min</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(vt); <span class="fu">guardar_tab</span>(vt, <span class="st">"validacion_temporal"</span>)</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(vt, <span class="fu">aes</span>(<span class="fu">factor</span>(Anio_prueba), F1_votacion, <span class="at">group =</span> Modelo, <span class="at">linetype =</span> Modelo, <span class="at">shape =</span> Modelo, <span class="at">colour =</span> Modelo)) <span class="sc">+</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> .<span class="dv">9</span>) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.2</span>) <span class="sc">+</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"16 variables"</span> <span class="ot">=</span> <span class="st">"black"</span>, <span class="st">"3 variables"</span> <span class="ot">=</span> <span class="st">"grey55"</span>), <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"16 variables"</span> <span class="ot">=</span> <span class="st">"solid"</span>, <span class="st">"3 variables"</span> <span class="ot">=</span> <span class="st">"dashed"</span>), <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"16 variables"</span> <span class="ot">=</span> <span class="dv">16</span>, <span class="st">"3 variables"</span> <span class="ot">=</span> <span class="dv">15</span>), <span class="at">name =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="fu">min</span>(.<span class="dv">5</span>, <span class="fu">min</span>(vt<span class="sc">$</span>F1_votacion) <span class="sc">-</span> .<span class="dv">05</span>), <span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Año de prueba"</span>, <span class="at">y =</span> <span class="st">"F1"</span>, <span class="at">title =</span> <span class="st">"Validación temporal 2016-2025"</span>) <span class="sc">+</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tema_ena</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a><span class="fu">guardar_fig</span>(p, <span class="st">"f6_temporal"</span>, <span class="dv">7</span>, <span class="fl">3.4</span>)</span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(vt[, .(<span class="at">F1_medio =</span> <span class="fu">mean</span>(F1_votacion), <span class="at">AUC_medio =</span> <span class="fu">mean</span>(AUC_votacion)), <span class="at">by =</span> Modelo])</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-8" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-8-tab">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>scripts/R/ejecutar_todo.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb8" data-filename="scripts/R/ejecutar_todo.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ejecutar_todo.R · Corre el análisis completo en R (etapas 3-5)</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># En RStudio: abrir ena-anomalias-2015-2025.Rproj y pulsar "Source" en este archivo.</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Salidas: figuras/R/*.png y resultados/R/*.csv</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>t_inicio <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"00_configuracion.R"</span>, <span class="st">"01_cargar_datos.R"</span>, <span class="st">"02_variables.R"</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"03_modelos.R"</span>, <span class="st">"04_resultados.R"</span>, <span class="st">"05_validacion.R"</span>)) {</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">==== "</span>, s, <span class="st">" ===="</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">source</span>(<span class="fu">file.path</span>(<span class="st">"scripts/R"</span>, s), <span class="at">encoding =</span> <span class="st">"UTF-8"</span>, <span class="at">echo =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">message</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Listo en "</span>, <span class="fu">round</span>(<span class="fu">difftime</span>(<span class="fu">Sys.time</span>(), t_inicio, <span class="at">units =</span> <span class="st">"mins"</span>), <span class="dv">1</span>), <span class="st">" min"</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">capture.output</span>(<span class="fu">sessionInfo</span>()), <span class="fu">file.path</span>(DIR_RES, <span class="st">"sessionInfo.txt"</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-9" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-9-tab">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>scripts/R/exportar_base.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb9" data-filename="scripts/R/exportar_base.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># exportar_base.R · Excel por año (ENA_2014_2025_cultivos.xlsx) -&gt; CSV consolidado</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Equivalente en R de scripts/exportar_base.py</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Uso (consola de RStudio): source("scripts/R/exportar_base.R"); exportar_base("ruta/ENA_2014_2025_cultivos.xlsx")</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># =============================================================================</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>exportar_base <span class="ot">&lt;-</span> <span class="cf">function</span>(xlsx, <span class="at">salida =</span> <span class="st">"data/processed/ena_2014_2025_productor.csv.gz"</span>) {</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  nombres <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Año"</span> <span class="ot">=</span> <span class="st">"anio"</span>, <span class="st">"Código departamento"</span> <span class="ot">=</span> <span class="st">"ccdd"</span>, <span class="st">"Departamento"</span> <span class="ot">=</span> <span class="st">"departamento"</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Región natural"</span> <span class="ot">=</span> <span class="st">"region_natural"</span>, <span class="st">"Cultivo"</span> <span class="ot">=</span> <span class="st">"cultivo"</span>, <span class="st">"Código cultivo"</span> <span class="ot">=</span> <span class="st">"cod_cultivo"</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Unidad de medida"</span> <span class="ot">=</span> <span class="st">"unidad_medida"</span>, <span class="st">"Superficie cosechada (ha)"</span> <span class="ot">=</span> <span class="st">"sup_cosechada_ha"</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Superficie reconstruida (sí/no)"</span> <span class="ot">=</span> <span class="st">"sup_reconstruida"</span>, <span class="st">"Superficie sembrada (ha)"</span> <span class="ot">=</span> <span class="st">"sup_sembrada_ha"</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cantidad cosechada (en su unidad)"</span> <span class="ot">=</span> <span class="st">"cant_cosechada"</span>, <span class="st">"Equivalencia de la unidad en kg"</span> <span class="ot">=</span> <span class="st">"equiv_kg"</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Producción (kg)"</span> <span class="ot">=</span> <span class="st">"prod_kg"</span>, <span class="st">"Rendimiento (kg/ha)"</span> <span class="ot">=</span> <span class="st">"rend_kg_ha"</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cantidad vendida (en su unidad)"</span> <span class="ot">=</span> <span class="st">"cant_vendida"</span>, <span class="st">"Precio por unidad (S/)"</span> <span class="ot">=</span> <span class="st">"precio_unidad"</span>,</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Valor de la venta (S/)"</span> <span class="ot">=</span> <span class="st">"valor_venta"</span>, <span class="st">"Precio por kg (S/)"</span> <span class="ot">=</span> <span class="st">"precio_kg"</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Consumo del hogar (en su unidad)"</span> <span class="ot">=</span> <span class="st">"cant_hogar"</span>, <span class="st">"Valor del consumo del hogar (S/)"</span> <span class="ot">=</span> <span class="st">"valor_hogar"</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Guardado como semilla (en su unidad)"</span> <span class="ot">=</span> <span class="st">"cant_semilla"</span>, <span class="st">"Alimento para animales (en su unidad)"</span> <span class="ot">=</span> <span class="st">"cant_animales"</span>,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Número de cosechas"</span> <span class="ot">=</span> <span class="st">"n_cosechas"</span>, <span class="st">"Meses de siembra a cosecha"</span> <span class="ot">=</span> <span class="st">"meses_siembra_cosecha"</span>,</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Tipo de cultivo (código INEI)"</span> <span class="ot">=</span> <span class="st">"tipo_cultivo"</span>, <span class="st">"Régimen de tenencia (código INEI)"</span> <span class="ot">=</span> <span class="st">"regimen_tenencia"</span>,</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Fuente de agua (código INEI)"</span> <span class="ot">=</span> <span class="st">"fuente_agua"</span>, <span class="st">"Marca Z-score"</span> <span class="ot">=</span> <span class="st">"flag_z"</span>,</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Marca Isolation Forest"</span> <span class="ot">=</span> <span class="st">"flag_if"</span>, <span class="st">"Marca k-Means"</span> <span class="ot">=</span> <span class="st">"flag_km"</span>, <span class="st">"Marca DBSCAN"</span> <span class="ot">=</span> <span class="st">"flag_db"</span>,</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Votos (0 a 4)"</span> <span class="ot">=</span> <span class="st">"votos"</span>, <span class="st">"Anomalía (1 = sí)"</span> <span class="ot">=</span> <span class="st">"anomalia"</span>)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  hojas <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^[0-9]{4}$"</span>, readxl<span class="sc">::</span><span class="fu">excel_sheets</span>(xlsx), <span class="at">value =</span> <span class="cn">TRUE</span>)   <span class="co"># se saltan Léeme y Resumen</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">lapply</span>(hojas, <span class="cf">function</span>(h) {</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(readxl<span class="sc">::</span><span class="fu">read_excel</span>(xlsx, <span class="at">sheet =</span> h, <span class="at">col_types =</span> <span class="st">"text"</span>))</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">setnames</span>(x, <span class="fu">names</span>(x), nombres[<span class="fu">names</span>(x)])</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(h, <span class="st">": "</span>, <span class="fu">format</span>(<span class="fu">nrow</span>(x), <span class="at">big.mark =</span> <span class="st">" "</span>), <span class="st">" registros"</span>)</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    x</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>  }), <span class="at">fill =</span> <span class="cn">TRUE</span>)[, <span class="fu">unname</span>(nombres), with <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>  texto <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ccdd"</span>, <span class="st">"departamento"</span>, <span class="st">"region_natural"</span>, <span class="st">"cultivo"</span>, <span class="st">"unidad_medida"</span>, <span class="st">"sup_reconstruida"</span>)</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>  num <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(d), texto)</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  d[, (num) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, as.numeric), .SDcols <span class="ot">=</span> num]</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>  d[, ccdd <span class="sc">:</span><span class="er">=</span> <span class="fu">sprintf</span>(<span class="st">"%02d"</span>, <span class="fu">as.integer</span>(ccdd))][ccdd <span class="sc">==</span> <span class="st">"NA"</span>, ccdd <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fwrite</span>(d, salida, <span class="at">compress =</span> <span class="st">"gzip"</span>, <span class="at">na =</span> <span class="st">""</span>)</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(salida, <span class="st">": "</span>, <span class="fu">format</span>(<span class="fu">nrow</span>(d), <span class="at">big.mark =</span> <span class="st">" "</span>), <span class="st">" filas × "</span>, <span class="fu">ncol</span>(d), <span class="st">" columnas"</span>)</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">invisible</span>(d)</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/miltonfloresf606-ai\.github\.io\/ena-anomalias-2015-2025\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>UNA Puno · FINESI · Ciencia de Datos I · 2026</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/miltonfloresf606-ai/ena-anomalias-2015-2025/blob/main/codigo-r.qmd" class="toc-action"><i class="bi bi-github"></i>Ver el código</a></li><li><a href="https://github.com/miltonfloresf606-ai/ena-anomalias-2015-2025/issues/new" class="toc-action"><i class="bi empty"></i>Informar de un problema</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>Datos: INEI (ENA 2014–2025). Código MIT · Datos CC BY 4.0</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

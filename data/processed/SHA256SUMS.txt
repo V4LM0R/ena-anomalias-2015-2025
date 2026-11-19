@@ -1,0 +1,2 @@
+1de82722dbb4812312f6234795a31b213aa7bf5107279b6628ef09d513dd79e5  ena_2014_2025_productor.csv.gz
+70740ffaac7ce5923c8fe00a6a58c862e110ed734b7ec7cac2be154a3ef2c135  diccionario_variables.csv

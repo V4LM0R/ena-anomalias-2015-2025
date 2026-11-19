@@ -1,0 +1,11 @@
+modelo_tipo_error,Z-score robusto,Isolation Forest,k-Means,DBSCAN,Votación (≥2)
+3 variables: A) producción × 10,74.5,7.4,41.4,32.6,43.9
+3 variables: B) kg ↔ t,100.0,32.4,99.9,99.6,99.9
+3 variables: C) valor × 10,86.7,70.7,74.6,68.2,77.8
+3 variables: D) sembrada × 10,0.0,0.0,0.0,0.0,0.0
+3 variables: E) cosechas × 10,0.0,0.0,0.0,0.0,0.0
+16 variables: A) producción × 10,73.8,0.8,2.5,8.6,9.1
+16 variables: B) kg ↔ t,100.0,8.1,94.7,97.3,97.5
+16 variables: C) valor × 10,87.1,2.0,20.4,26.6,28.4
+16 variables: D) sembrada × 10,7.2,3.5,100.0,14.3,20.7
+16 variables: E) cosechas × 10,0.0,5.0,99.2,12.3,15.4

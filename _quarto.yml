@@ -1,0 +1,62 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - index.qmd
+    - datos.qmd
+    - codigo-r.qmd
+    - presentacion.qmd
+  resources:
+    - .nojekyll
+    - figuras/*.png
+    - figuras/R/*.png
+    - data/processed/diccionario_variables.csv
+
+lang: es
+
+website:
+  title: "Anomalías en la ENA 2015–2025"
+  description: "Detección no supervisada de registros anómalos en la Encuesta Nacional Agropecuaria del INEI (Perú)."
+  site-url: "https://miltonfloresf606-ai.github.io/ena-anomalias-2015-2025/"
+  repo-url: "https://github.com/miltonfloresf606-ai/ena-anomalias-2015-2025"
+  repo-actions: [source, issue]
+  page-navigation: true
+  navbar:
+    background: "#14213d"
+    left:
+      - href: index.qmd
+        text: Informe
+      - href: datos.qmd
+        text: Datos y código
+      - href: codigo-r.qmd
+        text: Código en R
+      - href: presentacion.qmd
+        text: Presentación
+    right:
+      - icon: github
+        href: "https://github.com/miltonfloresf606-ai/ena-anomalias-2015-2025"
+        aria-label: GitHub
+  page-footer:
+    left: "UNA Puno · FINESI · Ciencia de Datos I · 2026"
+    right: "Datos: INEI (ENA 2014–2025). Código MIT · Datos CC BY 4.0"
+
+format:
+  html:
+    theme: [cosmo, styles.scss]
+    toc: true
+    toc-title: "Contenido"
+    number-sections: true
+    fig-align: center
+    tbl-cap-location: top
+    link-external-newwindow: true
+    code-copy: true
+
+filters:
+  - filters/include-code.lua
+
+bibliography: references.bib
+csl: apa.csl
+
+execute:
+  echo: false
+  freeze: auto

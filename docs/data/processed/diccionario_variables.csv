@@ -1,0 +1,34 @@
+variable,etiqueta_original,descripcion,tipo,unidad,disponible
+anio,Año,Año de la encuesta (2014–2025; no existe 2020),entero,año,Todos
+ccdd,Código departamento,"Código de departamento (UBIGEO, 2 dígitos)",texto,—,Todos
+departamento,Departamento,Nombre del departamento,texto,—,Todos
+region_natural,Región natural,"Región natural de la parcela (Costa, Sierra, Selva)",texto,—,Todos
+cultivo,Cultivo,Nombre del cultivo según catálogo INEI,texto,—,Todos
+cod_cultivo,Código cultivo,Código del cultivo (catálogo INEI),entero,—,Todos
+unidad_medida,Unidad de medida,"Unidad en que el productor declaró la cosecha (kilos, sacos, arrobas…)",texto,—,2015–2025
+sup_cosechada_ha,Superficie cosechada (ha),Superficie cosechada convertida a hectáreas,decimal,ha,2015–2025
+sup_reconstruida,Superficie reconstruida (sí/no),"""sí"" si las hectáreas se reconstruyeron con el factor de la parcela (2015 y 2018)",texto,—,2015–2025
+sup_sembrada_ha,Superficie sembrada (ha),Superficie sembrada en hectáreas,decimal,ha,2015–2025
+cant_cosechada,Cantidad cosechada (en su unidad),Cantidad cosechada en la unidad declarada,decimal,unidad declarada,2015–2025
+equiv_kg,Equivalencia de la unidad en kg,Kilogramos que equivalen a una unidad declarada,decimal,kg/unidad,2015–2025
+prod_kg,Producción (kg),cant_cosechada × equiv_kg,decimal,kg,2015–2025
+rend_kg_ha,Rendimiento (kg/ha),prod_kg ÷ sup_cosechada_ha,decimal,kg/ha,2015–2025
+cant_vendida,Cantidad vendida (en su unidad),Cantidad vendida en la unidad declarada,decimal,unidad declarada,2015–2025
+precio_unidad,Precio por unidad (S/),Precio de venta por unidad declarada,decimal,S/ por unidad,2015–2025 (solo quien vende)
+valor_venta,Valor de la venta (S/),Valor total de la venta,decimal,S/,2015–2025 (solo quien vende)
+precio_kg,Precio por kg (S/),valor_venta ÷ kg vendidos,decimal,S/ por kg,2015–2025 (solo quien vende)
+cant_hogar,Consumo del hogar (en su unidad),Cantidad destinada al consumo del hogar,decimal,unidad declarada,2015–2025
+valor_hogar,Valor del consumo del hogar (S/),Valor estimado del autoconsumo,decimal,S/,2015–2025
+cant_semilla,Guardado como semilla (en su unidad),Cantidad guardada como semilla,decimal,unidad declarada,2015–2025
+cant_animales,Alimento para animales (en su unidad),Cantidad destinada a alimento de animales,decimal,unidad declarada,2015–2025
+n_cosechas,Número de cosechas,Número de cosechas en el año (pregunta P205),entero,cosechas,Todos
+meses_siembra_cosecha,Meses de siembra a cosecha,Meses entre la siembra y el inicio de la cosecha (2021 sin fecha de siembra),entero,meses,2015–2025
+tipo_cultivo,Tipo de cultivo (código INEI),Código INEI del tipo de cultivo,entero (código),—,Todos
+regimen_tenencia,Régimen de tenencia (código INEI),Código INEI de la conducción/tenencia del cultivo,entero (código),—,Todos
+fuente_agua,Fuente de agua (código INEI),Código INEI de la fuente de agua (riego o secano),entero (código),—,Todos
+flag_z,Marca Z-score,"1 si el z-score robusto marca el registro (|z| > 3,5)",0/1,—,2015–2025
+flag_if,Marca Isolation Forest,1 si Isolation Forest marca el registro (contaminación 1 %),0/1,—,2015–2025
+flag_km,Marca k-Means,1 si está en el 1 % más lejano de su centroide (k = 3),0/1,—,2015–2025
+flag_db,Marca DBSCAN,1 si DBSCAN lo deja como ruido,0/1,—,2015–2025
+votos,Votos (0 a 4),Número de métodos que marcan el registro,entero,0–4,2015–2025
+anomalia,Anomalía (1 = sí),1 si votos ≥ 2 (modelo de 16 variables),0/1,—,2015–2025
