@@ -88,21 +88,21 @@
     "href": "presentacion.html#disponibilidad-de-datos",
     "title": "Detección de anomalías en la producción agrícola del Perú",
     "section": "Disponibilidad de datos",
-    "text": "Disponibilidad de datos\n\nFuente primaria: microdatos ENA del INEI (2014–2025).\nBase procesada + código: Zenodo, DOI 10.5281/zenodo.XXXXXXX\n\n - Repositorio y sitio: GitHub · Informe web - Licencias: datos CC BY 4.0 · código MIT"
+    "text": "Disponibilidad de datos\n\nFuente primaria: microdatos ENA del INEI (2014–2025).\nBase procesada + código: Zenodo, DOI 10.5281/zenodo.24375916\n\n - Repositorio y sitio: GitHub · Informe web - Licencias: datos CC BY 4.0 · código MIT"
   },
   {
     "objectID": "presentacion.html#gracias",
     "href": "presentacion.html#gracias",
     "title": "Detección de anomalías en la producción agrícola del Perú",
     "section": "Gracias",
-    "text": "Gracias\nInforme completo: https://miltonfloresf606-ai.github.io/ena-anomalias-2015-2025/\n\n\n\nAnomalías ENA 2015–2025 · DOI 10.5281/zenodo.XXXXXXX"
+    "text": "Gracias\nInforme completo: https://miltonfloresf606-ai.github.io/ena-anomalias-2015-2025/\n\n\n\nAnomalías ENA 2015–2025 · DOI 10.5281/zenodo.24375916"
   },
   {
     "objectID": "datos.html",
     "href": "datos.html",
     "title": "Datos y código",
     "section": "",
-    "text": "DOI\n\n\nDOI (Zenodo): 10.5281/zenodo.XXXXXXX\nRepositorio: https://github.com/miltonfloresf606-ai/ena-anomalias-2015-2025\nVersión: 1.0.0 · Datos CC BY 4.0 · Código MIT"
+    "text": "DOI\n\n\nDOI (Zenodo): 10.5281/zenodo.24375916\nRepositorio: https://github.com/miltonfloresf606-ai/ena-anomalias-2015-2025\nVersión: 1.0.0 · Datos CC BY 4.0 · Código MIT"
   },
   {
     "objectID": "datos.html#archivos-depositados",
@@ -137,7 +137,7 @@
     "href": "datos.html#cómo-citar",
     "title": "Datos y código",
     "section": "Cómo citar",
-    "text": "Cómo citar\n\nFlores Flores, M., Pacori Vera, R. A., Mamani Fernandez, R. R., Aquize Jimenez, V. S., & Luque Cornejo, Z. Y. (2026). Detección de anomalías en la Encuesta Nacional Agropecuaria 2014–2025: base consolidada y código (Versión 1.0.0) [Conjunto de datos]. Zenodo. &lt;https://doi.org/10.5281/zenodo.XXXXXXX&gt;\n\nFuente primaria: Instituto Nacional de Estadística e Informática (INEI). Encuesta Nacional Agropecuaria 2014–2025, microdatos."
+    "text": "Cómo citar\n\nFlores Flores, M., Pacori Vera, R. A., Mamani Fernandez, R. R., Aquize Jimenez, V. S., & Luque Cornejo, Z. Y. (2026). Detección de anomalías en la Encuesta Nacional Agropecuaria 2014–2025: base consolidada y código (Versión 1.0.0) [Conjunto de datos]. Zenodo. &lt;https://doi.org/10.5281/zenodo.24375916&gt;\n\nFuente primaria: Instituto Nacional de Estadística e Informática (INEI). Encuesta Nacional Agropecuaria 2014–2025, microdatos."
   },
   {
     "objectID": "index.html",

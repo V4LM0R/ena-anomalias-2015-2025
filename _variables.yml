@@ -1,5 +1,5 @@
 # Cambiar SOLO aquí (o con: python scripts/poner_doi.py 10.5281/zenodo.NNNNNNN)
-doi: "10.5281/zenodo.XXXXXXX"
+doi: "10.5281/zenodo.24375916"
 repo: "https://github.com/miltonfloresf606-ai/ena-anomalias-2015-2025"
 sitio: "https://miltonfloresf606-ai.github.io/ena-anomalias-2015-2025/"
 version: "1.0.0"

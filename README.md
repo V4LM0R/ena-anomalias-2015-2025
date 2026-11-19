@@ -1,6 +1,6 @@
 # Detección de anomalías en la Encuesta Nacional Agropecuaria (ENA) 2014–2025
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24375916.svg)](https://doi.org/10.5281/zenodo.24375916)
 [![Sitio web](https://img.shields.io/badge/informe-GitHub%20Pages-14213d)](https://miltonfloresf606-ai.github.io/ena-anomalias-2015-2025/)
 [![Código: MIT](https://img.shields.io/badge/código-MIT-blue)](LICENSE)
 [![Datos: CC BY 4.0](https://img.shields.io/badge/datos-CC%20BY%204.0-lightgrey)](data/LICENSE-DATOS.md)
@@ -9,7 +9,7 @@ Detección no supervisada de registros anómalos de producción agrícola (capí
 
 - **Informe web:** https://miltonfloresf606-ai.github.io/ena-anomalias-2015-2025/
 - **Presentación:** https://miltonfloresf606-ai.github.io/ena-anomalias-2015-2025/presentacion.html
-- **Datos y código (DOI):** https://doi.org/10.5281/zenodo.XXXXXXX
+- **Datos y código (DOI):** https://doi.org/10.5281/zenodo.24375916
 
 Universidad Nacional del Altiplano – Puno · FINESI · Ciencia de Datos I · Docente: Fred Torres Cruz.
 
@@ -91,7 +91,7 @@ jupyter lab scripts/Deteccion_Anomalias_ENA_2015_2025.ipynb
 
 ## Cómo citar
 
-Flores Flores, M., Pacori Vera, R. A., Mamani Fernandez, R. R., Aquize Jimenez, V. S., & Luque Cornejo, Z. Y. (2026). *Detección de anomalías en la Encuesta Nacional Agropecuaria 2014–2025: base consolidada y código* (Versión 1.0.0) [Conjunto de datos]. Zenodo. https://doi.org/10.5281/zenodo.XXXXXXX
+Flores Flores, M., Pacori Vera, R. A., Mamani Fernandez, R. R., Aquize Jimenez, V. S., & Luque Cornejo, Z. Y. (2026). *Detección de anomalías en la Encuesta Nacional Agropecuaria 2014–2025: base consolidada y código* (Versión 1.0.0) [Conjunto de datos]. Zenodo. https://doi.org/10.5281/zenodo.24375916
 
 ## Licencia
 

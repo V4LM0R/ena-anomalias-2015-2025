@@ -4,7 +4,7 @@ type: dataset
 title: "Detección de anomalías en la Encuesta Nacional Agropecuaria 2014–2025: base consolidada y código"
 version: 1.0.0
 date-released: 2026-11-18
-doi: 10.5281/zenodo.XXXXXXX
+doi: 10.5281/zenodo.24375916
 license: CC-BY-4.0
 repository-code: "https://github.com/miltonfloresf606-ai/ena-anomalias-2015-2025"
 url: "https://miltonfloresf606-ai.github.io/ena-anomalias-2015-2025/"
